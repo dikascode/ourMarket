@@ -60,13 +60,18 @@
         redirect('checkout.php'); 
     }
 
-
     // Cart function
 
     function cart() {
 
         $total = 0;
         $item_quantity = 0;
+
+        $item_name = 1;
+        $item_number = 1;
+        $amount = 1;
+        $quantity = 1;
+        
 
         foreach ($_SESSION as $name => $value) {
             
@@ -102,10 +107,22 @@
                             </td>
                         
                         </tr>
-                
+
+
+                        <input type="hidden" name="item_name_{$item_name}" value="{$row['product_title']}">
+                        <input type="hidden" name="item_number_{$item_number}" value="{$row['product_id']}">
+                        <input type="hidden" name="amount_$amount" value="{$row['product_price']}">
+                        <input type="hidden" name="quantity_{$quantity}" value="{$value}">
+
+                      
                         DELIMETER;
             
                         echo $product;
+
+                        $item_name++;
+                        $item_number++;
+                        $amount++;
+                        $quantity++;
 
                         //total price
                         $_SESSION['total_price'] = $total += $sub;
@@ -119,14 +136,81 @@
             }
 
             
-
-            
         }
 
-       
-
-       
     }
+
+
+function show_paypal() {
+
+    if (isset($_SESSION['item_quantity'])){
+
+        $paypal_button = <<<DELIMETER
+
+        <input type="image" name="upload"
+        src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+        alt="PayPal - The safer, easier way to pay online">
+    
+        DELIMETER;
+    
+        return $paypal_button;
+    }
+
+   
+}
+
+// flutter wave api
+function flutter_wave (){
+
+    if (isset($_SESSION['item_quantity'])){
+
+    $rave = <<<DELIMETER
+
+        <form>
+        <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+        <button class="btn btn-danger" type="button" onClick="payWithRave()">Pay Now</button>
+        </form>
+
+        <script>
+        const API_publicKey = "FLWPUBK-69349e40463f5677a1cf8c8d719af2bf-X";
+
+        function payWithRave() {
+        var x = getpaidSetup({
+        PBFPubKey: "FLWPUBK-69349e40463f5677a1cf8c8d719af2bf-X",
+        customer_email: "user@example.com",
+        amount: {$_SESSION['total_price']},
+        customer_phone: "234099940409",
+        currency: "NGN",
+        txref: "rave-123456",
+        meta: [{
+        metaname: "flightID",
+        metavalue: "AP1234"
+        }],
+        onclose: function() {},
+        callback: function(response) {
+        var txref = response.tx.txRef; // collect txRef returned and pass to a 	server page to complete status check.
+        console.log("This is the response returned after a charge", response);
+        if (
+        response.tx.chargeResponseCode == "00" ||
+        response.tx.chargeResponseCode == "0"
+        ) {
+        // redirect to a success page
+        } else {
+        // redirect to a failure page.
+        }
+
+        x.close(); // use this to close the modal immediately after payment.
+        }
+        });
+        }
+        </script>
+
+    DELIMETER;
+
+    return $rave;
+
+    }
+}
 
 
 ?>
