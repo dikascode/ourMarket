@@ -2,6 +2,7 @@
 
 ob_start();
 session_start();
+// session_destroy();
 //define paths and database connections with constants
 
 defined ("DS") ? null : define ("DS", DIRECTORY_SEPARATOR);

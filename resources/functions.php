@@ -76,7 +76,7 @@ function get_products() {
 </h4>
 <p>{$row['short_desc']}</p>
 
-<a class="btn btn-primary" target="_blank" href="">Add to Cart</a>
+<a class="btn btn-primary" target="_blank" href="cart.php?add={$row['product_id']}">Add to Cart</a>
 </div>
 
 </div>
