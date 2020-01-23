@@ -2,6 +2,12 @@
 
 // Helper fucntions
 
+
+function last_id () {
+    global $connection;
+    return mysqli_insert_id($connection);
+}
+
 function set_message($msg){
     if(!empty($msg)){
     $_SESSION['message'] = $msg;
@@ -200,6 +206,7 @@ if(mysqli_num_rows($query) === 0){
 }
 
 
+//Email function for contact us page
 
 function send_message(){
 
@@ -235,6 +242,38 @@ $headers .= 'From: '.$email."\r\n".
  
     
     }     
+}
+
+
+
+
+
+/********************************** BACK END FUNCTIONS ****************************************** */
+
+function display_orders () {
+
+    $query = query("SELECT * FROM orders");
+    confirm($query);
+
+
+    while($row = fetch_array($query)) {
+       
+        // heredoc
+    $orders = <<<DELIMETER
+    <tr>
+        <th>{$row['order_id']}</th>
+        <th>{$row['order_amount']}</th>
+        <th>{$row['order_transaction']}</th>
+        <th>{$row['order_currency']}</th>
+        <th>Order Date</th>
+        <th>{$row['order_status']}</th>
+    </tr>
+DELIMETER;
+
+echo $orders;
+
+    }
+
 }
 
 

@@ -214,4 +214,88 @@ function flutter_wave (){
 }
 
 
+
+
+// Reports
+function report() {
+
+    // Obtain the payment GET details from the url
+
+    if(isset($_GET['tx'])){
+        $amount =  $_GET['amt'];
+        $currency = $_GET['cc'];
+        $transaction = $_GET['tx'];
+        $status = $_GET['st'];
+
+         $total = 0;
+         $item_quantity = 0;
+     
+         foreach ($_SESSION as $name => $value) {
+                  
+             if ($value > 0) {
+     
+                 // Getting the substring of the session amd comparing to get the product id
+                 if (substr($name, 0, 8) == "product_") {
+     
+                     $length = strlen($name) - 8;
+                     $id = substr($name, 8, $length);
+
+                    // insert into orders table
+                    $send_order = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency)
+                    VALUES('$amount', '$transaction', '$status', '$currency')");
+
+                    //Obtain the last inserted id
+                    $last_id = last_id();
+
+                    confirm($send_order);
+     
+     
+                     //Select product from database
+                     $query = query("SELECT * FROM products WHERE product_id =" . escape_string($id) . " ");
+                     confirm($query);
+             
+                     while($row = fetch_array($query)) {
+     
+                         //getting the sub-total of the product
+     
+                         $sub = $row['product_price'] * $value;
+                         $item_quantity += $value;
+                         $product_price = $row['product_price'];
+                         $product_title = $row['product_title'];
+                        
+                         // insert into orders table
+                         $insert_report = query("INSERT INTO reports (product_id, order_id, product_price, product_title, product_quantity)
+                         VALUES('$id', '$last_id', '$product_price', '$product_title',  '$value')");
+         
+                         confirm($insert_report);
+             
+                        
+         
+                         //total price n item quantity
+                         $total += $sub;
+                         $item_quantity;
+                     }
+         
+                     }
+     
+             }
+     
+             
+         }
+ 
+        
+ 
+        session_destroy();
+
+     }else{
+         redirect("index.php");
+     }
+
+
+
+   
+
+}
+
+
 ?>
