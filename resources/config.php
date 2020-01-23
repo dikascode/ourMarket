@@ -1,7 +1,9 @@
 <?php
 
 ob_start();
-session_start();
+if(!isset($_SESSION)){
+    session_start();
+}
 // session_destroy();
 //define paths and database connections with constants
 
@@ -26,5 +28,6 @@ defined ("DB_NAME") ? null : define ("DB_NAME", "ourMarket_db");
  $connection = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
 require_once("functions.php");
+require_once("cart.php");
 
 ?>
