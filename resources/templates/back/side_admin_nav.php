@@ -14,7 +14,7 @@
         </li>
 
         <li>
-            <a href="index.php?edit"><i class="fa fa-fw fa-table"></i> Edit Product</a>
+            <a href="index.php?edit_product"><i class="fa fa-fw fa-table"></i> Edit Product</a>
         </li>
         
         <li>
