@@ -5,6 +5,8 @@
         All Orders
 
         </h1>
+
+        <h2 class="bg-success"><?php display_message(); ?></h2>
     </div>
 
     <div class="row">

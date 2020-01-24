@@ -261,12 +261,13 @@ function display_orders () {
         // heredoc
     $orders = <<<DELIMETER
     <tr>
-        <th>{$row['order_id']}</th>
-        <th>{$row['order_amount']}</th>
-        <th>{$row['order_transaction']}</th>
-        <th>{$row['order_currency']}</th>
-        <th>Order Date</th>
-        <th>{$row['order_status']}</th>
+        <td>{$row['order_id']}</td>
+        <td>{$row['order_amount']}</td>
+        <td>{$row['order_transaction']}</td>
+        <td>{$row['order_currency']}</td>
+        <td>Order Date</td>
+        <td>{$row['order_status']}</td>
+        <td><a class="btn btn-danger" href="../../resources/templates/back/delete_order.php?id={$row['order_id']}"><span class="glyphicon glyphicon-remove"></span></a></td>
     </tr>
 DELIMETER;
 

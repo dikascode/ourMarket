@@ -217,7 +217,7 @@ function flutter_wave (){
 
 
 // Reports
-function report() {
+function process_transaction() {
 
     // Obtain the payment GET details from the url
 
