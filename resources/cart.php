@@ -95,30 +95,30 @@ require_once("config.php"); ?>
                         $sub = $row['product_price'] * $value;
                         $item_quantity += $value;
             
-                        $product = <<<DELIMETER
-                        <tr>
-                            <td>{$row['product_title']}</td>
-                            <td>&#8358;{$row['product_price']}</td>
-                            <td>$value</td>
-                            <td>&#8358;$sub</td>
-                            <td>
-                            <a class='btn btn-warning' href='../resources/cart.php?remove={$row['product_id']}'><span class='glyphicon glyphicon-minus'></span></a> 
-                            <a class='btn btn-success' href='../resources/cart.php?add={$row['product_id']}'><span class='glyphicon glyphicon-plus'></span></a> 
-                            <a class='btn btn-danger' href='../resources/cart.php?delete={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a>
-                            </td>
-                        
-                        </tr>
+$product = <<<DELIMETER
+<tr>
+<td>{$row['product_title']}</td>
+<td>&#8358;{$row['product_price']}</td>
+<td>$value</td>
+<td>&#8358;$sub</td>
+<td>
+<a class='btn btn-warning' href='../resources/cart.php?remove={$row['product_id']}'><span class='glyphicon glyphicon-minus'></span></a> 
+<a class='btn btn-success' href='../resources/cart.php?add={$row['product_id']}'><span class='glyphicon glyphicon-plus'></span></a> 
+<a class='btn btn-danger' href='../resources/cart.php?delete={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a>
+</td>
+
+</tr>
 
 
-                        <input type="hidden" name="item_name_{$item_name}" value="{$row['product_title']}">
-                        <input type="hidden" name="item_number_{$item_number}" value="{$row['product_id']}">
-                        <input type="hidden" name="amount_$amount" value="{$row['product_price']}">
-                        <input type="hidden" name="quantity_{$quantity}" value="{$value}">
+<input type="hidden" name="item_name_{$item_name}" value="{$row['product_title']}">
+<input type="hidden" name="item_number_{$item_number}" value="{$row['product_id']}">
+<input type="hidden" name="amount_$amount" value="{$row['product_price']}">
+<input type="hidden" name="quantity_{$quantity}" value="{$value}">
 
-                      
-                        DELIMETER;
-            
-                        echo $product;
+
+DELIMETER;
+
+echo $product;
 
                         $item_name++;
                         $item_number++;
@@ -146,15 +146,15 @@ function show_paypal() {
 
     if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1){
 
-        $paypal_button = <<<DELIMETER
+$paypal_button = <<<DELIMETER
 
-        <input type="image" name="upload"
-        src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
-        alt="PayPal - The safer, easier way to pay online">
-    
-        DELIMETER;
-    
-        return $paypal_button;
+<input type="image" name="upload"
+src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+alt="PayPal - The safer, easier way to pay online">
+
+DELIMETER;
+
+return $paypal_button;
     }
 
    
@@ -165,50 +165,50 @@ function flutter_wave (){
 
     if (isset($_SESSION['item_quantity'])){
 
-    $rave = <<<DELIMETER
+$rave = <<<DELIMETER
 
-        <form>
-        <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-        <button class="btn btn-danger" type="button" onClick="payWithRave()">Pay Now</button>
-        </form>
+<form>
+<script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+<button class="btn btn-danger" type="button" onClick="payWithRave()">Pay Now</button>
+</form>
 
-        <script>
-        const API_publicKey = "FLWPUBK-69349e40463f5677a1cf8c8d719af2bf-X";
+<script>
+const API_publicKey = "FLWPUBK-69349e40463f5677a1cf8c8d719af2bf-X";
 
-        function payWithRave() {
-        var x = getpaidSetup({
-        PBFPubKey: "FLWPUBK-69349e40463f5677a1cf8c8d719af2bf-X",
-        customer_email: "user@example.com",
-        amount: {$_SESSION['total_price']},
-        customer_phone: "234099940409",
-        currency: "NGN",
-        txref: "rave-123456",
-        meta: [{
-        metaname: "flightID",
-        metavalue: "AP1234"
-        }],
-        onclose: function() {},
-        callback: function(response) {
-        var txref = response.tx.txRef; // collect txRef returned and pass to a 	server page to complete status check.
-        console.log("This is the response returned after a charge", response);
-        if (
-        response.tx.chargeResponseCode == "00" ||
-        response.tx.chargeResponseCode == "0"
-        ) {
-        // redirect to a success page
-        } else {
-        // redirect to a failure page.
-        }
+function payWithRave() {
+var x = getpaidSetup({
+PBFPubKey: "FLWPUBK-69349e40463f5677a1cf8c8d719af2bf-X",
+customer_email: "user@example.com",
+amount: {$_SESSION['total_price']},
+customer_phone: "234099940409",
+currency: "NGN",
+txref: "rave-123456",
+meta: [{
+metaname: "flightID",
+metavalue: "AP1234"
+}],
+onclose: function() {},
+callback: function(response) {
+var txref = response.tx.txRef; // collect txRef returned and pass to a 	server page to complete status check.
+console.log("This is the response returned after a charge", response);
+if (
+response.tx.chargeResponseCode == "00" ||
+response.tx.chargeResponseCode == "0"
+) {
+// redirect to a success page
+} else {
+// redirect to a failure page.
+}
 
-        x.close(); // use this to close the modal immediately after payment.
-        }
-        });
-        }
-        </script>
+x.close(); // use this to close the modal immediately after payment.
+}
+});
+}
+</script>
 
-    DELIMETER;
+DELIMETER;
 
-    return $rave;
+return $rave;
 
     }
 }

@@ -290,6 +290,8 @@ echo $orders;
 
     while($row = fetch_array($query)) {
 
+    $category_title =  show_product_category_title ($row['product_category_id']);
+
         // heredoc
     $product = <<<DELIMETER
 
@@ -298,8 +300,8 @@ echo $orders;
     <td>{$row['product_title']}<br>
         <a href="index.php?edit_product&id={$row['product_id']}"><img src="{$row['product_image']}" alt="Image {$row['product_id']}"></a>
     </td>
-    <td>Category</td>
-    <td>{$row['product_price']}</td>
+    <td>$category_title</td>
+    <td>&#8358;{$row['product_price']}</td>
     <td>{$row['product_quantity']}</td>
     <td><a class="btn btn-danger" href="../../resources/templates/back/delete_product.php?id={$row['product_id']}"><span class="glyphicon glyphicon-remove"></span></a></td>
    
@@ -348,6 +350,38 @@ function add_product () {
 
     }
 
+}
+
+
+function get_categories_add_product_page(){
+
+    $query = query("SELECT * FROM categories");
+    confirm($query);
+
+    while($row = fetch_array($query)) {
+       
+        // heredoc
+    $category_options = <<<DELIMETER
+    <option value="{$row['cat_id']}">{$row['cat_title']}</option>
+DELIMETER;
+
+echo $category_options;
+
+    }
+
+}
+
+
+    // Fetching category title with passing id as parameter
+
+function show_product_category_title ($product_category_id) {
+
+    $category_query = query("SELECT * FROM categories WHERE cat_id = {$product_category_id}");
+    confirm($category_query);
+
+    while($category_row = fetch_array($category_query)) {
+        return $category_row['cat_title'];
+    }
 }
 
 ?>
