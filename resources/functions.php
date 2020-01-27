@@ -405,9 +405,9 @@ function show_product_category_title ($product_category_id) {
 
 // Edit function for products in admin page
 
-function edit_product () {
+function update_product () {
 
-    if (isset($_POST['publish'])) {
+    if (isset($_POST['update'])) {
         $product_title          = escape_string($_POST['product_title']);
         $product_cat_id         = escape_string($_POST['product_category_id']);
         $product_price          = escape_string($_POST['product_price']);
@@ -418,19 +418,23 @@ function edit_product () {
         $image_temp_location    = $_FILES['file']['tmp_name'];
 
 
-        // UPLOAD_FOLDER . DS . $product_image
-
         move_uploaded_file($_FILES['file']['tmp_name'], UPLOAD_DIR . DS . $product_image);
     
+        // Update product query
 
-        $query = query("INSERT INTO products(product_title, product_category_id, product_price, 
-                        product_quantity, product_desc, short_desc, product_image) VALUES('$product_title',
-                        '$product_cat_id', '$product_price', '$product_quantity', '$product_desc', '$short_desc',
-                        '$product_image' )");
-        $last_id = last_id();
+        $query  = "UPDATE products SET ";
+        $query .= "product_title                = '{$product_title}'    , ";
+        $query .= "product_category_id          = '{$product_cat_id }'  , ";
+        $query .= "product_price                = '{$product_price}'    , ";
+        $query .= "product_quantity             = '{$product_quantity}' , ";
+        $query .= "product_desc                 = '{$product_desc}'     , ";
+        $query .= "short_desc                   = '{$short_desc}'       , ";
+        $query .= "product_image                = '{$product_image}'     ";
+        $query .= "WHERE product_id =" . escape_string($_GET['id']);
+        
 
         confirm($query);
-        set_message("New Product with ID {$last_id} was Successfully Added");
+        set_message("Product Updated Successfully");
         redirect("index.php?products");
 
     }

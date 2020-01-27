@@ -13,9 +13,9 @@
             <a href="index.php?add_products"><i class="fa fa-fw fa-table"></i> Add Product</a>
         </li>
 
-        <li>
+        <!-- <li>
             <a href="index.php?edit_product"><i class="fa fa-fw fa-table"></i> Edit Product</a>
-        </li>
+        </li> -->
         
         <li>
             <a href="index.php?categories"><i class="fa fa-fw fa-desktop"></i> Categories</a>
