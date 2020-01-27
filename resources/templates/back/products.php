@@ -9,7 +9,9 @@
 
 </h1>
 
-<h2 class="bg-success"><?php display_message(); ?></h2>
+<h2 class="bg-success">
+
+<?php display_message(); ?></h2>
 <table class="table table-hover">
 
 

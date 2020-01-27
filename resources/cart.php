@@ -90,6 +90,9 @@ require_once("config.php"); ?>
             
                     while($row = fetch_array($query)) {
 
+                        //fetch the image path using the display_image function
+                        $product_image = display_image($row['product_image']);
+
                         //getting the sub-total of the product
 
                         $sub = $row['product_price'] * $value;
@@ -97,7 +100,9 @@ require_once("config.php"); ?>
             
 $product = <<<DELIMETER
 <tr>
-<td>{$row['product_title']}</td>
+<td>{$row['product_title']}<br>
+<img width="100" src="../resources/$product_image">
+</td>
 <td>&#8358;{$row['product_price']}</td>
 <td>$value</td>
 <td>&#8358;$sub</td>
@@ -169,7 +174,7 @@ $rave = <<<DELIMETER
 
 <form>
 <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-<button class="btn btn-danger" type="button" onClick="payWithRave()">Pay Now</button>
+<button class="btn btn-primary" type="button" onClick="payWithRave()">Pay Now</button>
 </form>
 
 <script>

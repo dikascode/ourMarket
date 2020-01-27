@@ -54,12 +54,6 @@
         <textarea name="short_desc" id="" cols="30" rows="3" class="form-control"></textarea>
       </div>
 
-
-
-
-      
-      
-
   </div><!--Main Content-->
 
 

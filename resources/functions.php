@@ -1,5 +1,8 @@
 <?php
 
+//upload directory
+$upload_directory = "uploads";
+
 // Helper fucntions
 
 
@@ -70,12 +73,14 @@ function get_products() {
 
     while($row = fetch_array($query)) {
 
+    $product_image = display_image ($row['product_image']);
+
         // heredoc
     $product = <<<DELIMETER
 
 <div class="col-sm-4 col-lg-4 col-md-4">
 <div class="thumbnail">
-<a href="item.php?id={$row['product_id']}"><img src="{$row['product_image']}" alt=""></a>
+<a href="item.php?id={$row['product_id']}"><img src="../resources/$product_image" alt=""></a>
 <div class="caption">
 <h4 class="pull-right">&#8358;{$row['product_price']}</h4>
 <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a>
@@ -124,17 +129,18 @@ function get_category_products(){
     confirm($query);
 
     while($row = fetch_array($query)) {
-       
+
+        $product_image = display_image ($row['product_image']);
         // heredoc
     $category_links = <<<DELIMETER
     <div class="col-md-3 col-sm-6 hero-feature">
     <div class="thumbnail">
-        <img src="{$row['product_image']}" alt="">
+        <img width="100" src="../resources/{$product_image}" alt="{row['product_title']}">
         <div class="caption">
             <h4>{$row['product_title']}</h4>
             <p>{$row['short_desc']}</p>
             <p>
-                <a href="#" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
+                <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
             </p>
         </div>
     </div>
@@ -156,17 +162,19 @@ function get_products_in_shop_page(){
     confirm($query);
 
     while($row = fetch_array($query)) {
+
+        $product_image = display_image($row['product_image']);
        
         // heredoc
     $category_links = <<<DELIMETER
     <div class="col-md-3 col-sm-6 hero-feature">
     <div class="thumbnail">
-        <img src="{$row['product_image']}" alt="">
+        <img src="../resources/{$product_image}" alt="{$row['product_title']}">
         <div class="caption">
             <h4>{$row['product_title']}</h4>
             <p>{$row['short_desc']}</p>
             <p>
-                <a href="#" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
+                <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
             </p>
         </div>
     </div>
@@ -283,6 +291,11 @@ echo $orders;
 
 // Admin products
 
+function display_image ($picture) {
+    global $upload_directory;
+    return $upload_directory . DS . $picture;
+}
+
  function get_products_in_admin() {
 
     $query = query("SELECT * FROM products");
@@ -292,13 +305,15 @@ echo $orders;
 
     $category_title =  show_product_category_title ($row['product_category_id']);
 
+    $product_image = display_image ($row['product_image']);
+
         // heredoc
     $product = <<<DELIMETER
 
 <tr>
     <td>{$row['product_id']}</td>
     <td>{$row['product_title']}<br>
-        <a href="index.php?edit_product&id={$row['product_id']}"><img src="{$row['product_image']}" alt="Image {$row['product_id']}"></a>
+        <a href="index.php?edit_product&id={$row['product_id']}"><img width="100px" src="../../resources/{$product_image}" alt="Image {$row['product_title']}"></a>
     </td>
     <td>$category_title</td>
     <td>&#8358;{$row['product_price']}</td>
@@ -333,10 +348,13 @@ function add_product () {
         $product_desc           = escape_string($_POST['product_desc']);
         $short_desc             = escape_string($_POST['short_desc']);
         $product_image          = escape_string($_FILES['file']['name']);
-        $image_temp_location    = escape_string($_FILES['file']['tmp_name']);
+        $image_temp_location    = $_FILES['file']['tmp_name'];
 
-        move_uploaded_file($image_temp_location, UPLOAD_FOLDER . DS . $product_image);
-        
+
+        // UPLOAD_FOLDER . DS . $product_image
+
+        move_uploaded_file($_FILES['file']['tmp_name'], UPLOAD_DIR . DS . $product_image);
+    
 
         $query = query("INSERT INTO products(product_title, product_category_id, product_price, 
                         product_quantity, product_desc, short_desc, product_image) VALUES('$product_title',
@@ -382,6 +400,41 @@ function show_product_category_title ($product_category_id) {
     while($category_row = fetch_array($category_query)) {
         return $category_row['cat_title'];
     }
+}
+
+
+// Edit function for products in admin page
+
+function edit_product () {
+
+    if (isset($_POST['publish'])) {
+        $product_title          = escape_string($_POST['product_title']);
+        $product_cat_id         = escape_string($_POST['product_category_id']);
+        $product_price          = escape_string($_POST['product_price']);
+        $product_quantity       = escape_string($_POST['product_quantity']);
+        $product_desc           = escape_string($_POST['product_desc']);
+        $short_desc             = escape_string($_POST['short_desc']);
+        $product_image          = escape_string($_FILES['file']['name']);
+        $image_temp_location    = $_FILES['file']['tmp_name'];
+
+
+        // UPLOAD_FOLDER . DS . $product_image
+
+        move_uploaded_file($_FILES['file']['tmp_name'], UPLOAD_DIR . DS . $product_image);
+    
+
+        $query = query("INSERT INTO products(product_title, product_category_id, product_price, 
+                        product_quantity, product_desc, short_desc, product_image) VALUES('$product_title',
+                        '$product_cat_id', '$product_price', '$product_quantity', '$product_desc', '$short_desc',
+                        '$product_image' )");
+        $last_id = last_id();
+
+        confirm($query);
+        set_message("New Product with ID {$last_id} was Successfully Added");
+        redirect("index.php?products");
+
+    }
+
 }
 
 ?>

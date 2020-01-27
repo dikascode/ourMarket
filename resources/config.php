@@ -13,7 +13,7 @@ defined ("TEMPLATE_FRONT") ? null : define ("TEMPLATE_FRONT", __DIR__ . DS . "te
 
 defined ("TEMPLATE_BACK") ? null : define ("TEMPLATE_BACK", __DIR__ . DS . "templates/back");
 
-defined ("UPLOAD_FOLDER") ? null : define ("UPLOAD_FOLDER", __DIR__ . DS . "uploads");
+defined ("UPLOAD_DIR") ? null : define ("UPLOAD_DIR", __DIR__ . DS . "uploads");
 
 //constants for database connections
 
