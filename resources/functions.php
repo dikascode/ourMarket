@@ -453,4 +453,64 @@ function update_product () {
 
 }
 
+
+
+// categories in admin
+
+    // Show categories function
+
+function show_categories_in_admin () {
+
+    $query = query("SELECT * FROM categories");
+    confirm($query);
+
+    while ($row = fetch_array($query)) {
+
+        $cat_id     = $row['cat_id'];
+        $cat_title  = $row['cat_title'];
+
+$category = <<<DELIMETER
+
+<tr>
+    <td>{$row['cat_id']}</td>
+    <td>{$row['cat_title']}</td>
+    <td><a class="btn btn-danger" href="../../resources/templates/back/delete_category.php?id={$row['cat_id']}"><span class="glyphicon glyphicon-remove"></span></a></td>
+</tr>
+
+DELIMETER;
+
+echo $category;
+
+    }
+
+}
+
+    // Create categories in admin
+
+    function add_category () {
+
+        if (isset($_POST['add_category'])) {
+
+            $cat_title = escape_string($_POST['cat_title']);
+
+            if (empty($cat_title) || $cat_title == " ") {
+
+                echo "<h3 class='bg-danger'>Category Title is Required</h3>";
+
+            } else {
+
+                $query = query("INSERT INTO categories(cat_title) VALUES('$cat_title')");
+
+                confirm($query);
+                $last_id = last_id();
+                $category_title = show_product_category_title($last_id);
+                set_message($category_title . " Category Created");
+                redirect("index.php?categories");
+
+
+            }
+         
+        }
+    }
+
 ?>
