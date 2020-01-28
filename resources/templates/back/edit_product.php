@@ -101,7 +101,9 @@
         <label for="product-title">Product Category</label>
   
         <select name="product_category_id" id="" class="form-control">
-            <option value="">Select Category</option>
+
+        <!-- Getting a default select option by invoking the product category function -->
+            <option value="<?php echo $product_cat_id ?>"><?php echo show_product_category_title ($product_cat_id) ?></option>
             <?php get_categories_add_product_page() ?>
           
         </select>
