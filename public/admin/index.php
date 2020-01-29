@@ -62,6 +62,11 @@
                     include(TEMPLATE_BACK . "/delete_order.php");
                 }
 
+
+                if(isset($_GET['slides'])) {
+                    include(TEMPLATE_BACK . "/slides.php");
+                }
+
              ?>
 
             </div>
