@@ -251,7 +251,7 @@ function get_category_products(){
     $category_links = <<<DELIMETER
     <div class="col-md-3 col-sm-6 hero-feature">
     <div class="thumbnail">
-        <img width="100" src="../resources/{$product_image}" alt="{row['product_title']}">
+        <img style="height:170px;" src="../resources/{$product_image}" alt="{row['product_title']}">
         <div class="caption">
             <h4>{$row['product_title']}</h4>
             <p>{$row['short_desc']}</p>
@@ -839,7 +839,7 @@ $slide_thumb_admin = <<<DELIMETER
 
 <div class="col-xs-6 col-md-3" style="margin-bottom: 10px;">
     <h4 class="text-primary">{$row['slide_title']}</h4>
-    <img class="img-responsive"   src="../../resources/$slide_image" alt="{$row['slide_title']}">
+    <img style="height:100px;" class="img-responsive" src="../../resources/$slide_image" alt="{$row['slide_title']}">
     <a class="btn btn-danger slide_image_container" title="Delete Slide" href="index.php?delete_slide_id={$row['slide_id']}"><span class="glyphicon glyphicon-remove"></span></a>
     
 
