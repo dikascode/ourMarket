@@ -112,39 +112,39 @@ function get_products() {
 
         $middleNumbers .= '<li class="page-item active"><a>'.$page.'</a><li>';
         $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
-                            .$_SERVER['PHP_SELF'].'?page= '.$add1.' ">' .$add1. '</a><li>';
+                            .$_SERVER['PHP_SELF'].'?page='.$add1.' ">' .$add1. '</a><li>';
 
     } elseif($page == $lastPage) {
 
         $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
-                            .$_SERVER['PHP_SELF'].'?page= '.$sub1.' ">' .$sub1. '</a><li>';
+                            .$_SERVER['PHP_SELF'].'?page='.$sub1.' ">' .$sub1. '</a><li>';
         $middleNumbers .= '<li class="page-item active"><a>'.$page.'</a><li>';
 
     } elseif($page > 2 && $page < ($lastPage - 1)) {
 
         $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
-                            .$_SERVER['PHP_SELF'].'?page= '.$sub2.' ">' .$sub2. '</a><li>';
+                            .$_SERVER['PHP_SELF'].'?page='.$sub2.' ">' .$sub2. '</a><li>';
 
         $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
-                            .$_SERVER['PHP_SELF'].'?page= '.$sub1.' ">' .$sub1. '</a><li>';
+                            .$_SERVER['PHP_SELF'].'?page='.$sub1.' ">' .$sub1. '</a><li>';
 
         $middleNumbers .= '<li class="page-item active"><a>'.$page.'</a><li>';
 
         $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
-                            .$_SERVER['PHP_SELF'].'?page= '.$add1.' ">' .$add1. '</a><li>';
+                            .$_SERVER['PHP_SELF'].'?page='.$add1.' ">' .$add1. '</a><li>';
 
         $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
-                            .$_SERVER['PHP_SELF'].'?page= '.$add2.' ">' .$add2. '</a><li>';
+                            .$_SERVER['PHP_SELF'].'?page='.$add2.' ">' .$add2. '</a><li>';
 
     }elseif ($page > 1 && $page < $lastPage) {
 
         $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
-                            .$_SERVER['PHP_SELF'].'?page= '.$sub1.' ">' .$sub1. '</a><li>';
+                            .$_SERVER['PHP_SELF'].'?page='.$sub1.' ">' .$sub1. '</a><li>';
 
         $middleNumbers .= '<li class="page-item active"><a>'.$page.'</a><li>';
 
         $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
-                            .$_SERVER['PHP_SELF'].'?page= '.$add1.' ">' .$add1. '</a><li>';
+                            .$_SERVER['PHP_SELF'].'?page='.$add1.' ">' .$add1. '</a><li>';
 
 
     }
@@ -166,7 +166,7 @@ function get_products() {
         $prev = $page-1;
 
         $outputPagination .= '<li class="page-item"><a class="page_link" href=" '
-        .$_SERVER['PHP_SELF'].'?page= '.$prev.' ">Back</a><li>';
+        .$_SERVER['PHP_SELF'].'?page='.$prev.' ">Back</a><li>';
     }
 
     $outputPagination .= $middleNumbers;
@@ -174,7 +174,7 @@ function get_products() {
     if ($page != $lastPage) {
         $next = $page + 1;
         $outputPagination .= '<li class="page-item"><a class="page_link" href=" '
-        .$_SERVER['PHP_SELF'].'?page= '.$next.' ">Next</a><li>';
+        .$_SERVER['PHP_SELF'].'?page='.$next.' ">Next</a><li>';
     }
 
 
@@ -209,7 +209,7 @@ DELIMETER;
 
     //pagination echo line
 
-    echo "<ul class='pagination'>{$outputPagination}</ul>";
+    echo "<div style='clear:both;' class='text-center'><ul class='pagination'>{$outputPagination}</ul></div>";
 
 }
 
