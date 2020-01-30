@@ -242,7 +242,7 @@ function process_transaction() {
                  // Getting the substring of the session amd comparing to get the product id
                  if (substr($name, 0, 8) == "product_") {
      
-                     $length = strlen($name) - 8;
+                     $length = strlen($name);
                      $id = substr($name, 8, $length);
 
                     // insert into orders table

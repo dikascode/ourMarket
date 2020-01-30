@@ -722,10 +722,9 @@ DELIMETER;
 $slide_thumb_admin = <<<DELIMETER
 
 <div class="col-xs-6 col-md-3" style="margin-bottom: 10px;">
-
-    
+    <h4 class="text-primary">{$row['slide_title']}</h4>
     <img class="img-responsive"   src="../../resources/$slide_image" alt="{$row['slide_title']}">
-    <a class="btn btn-danger" title="Delete Slide" href="index.php?delete_slide_id={$row['slide_id']}"><span class="glyphicon glyphicon-remove"></span></a>
+    <a class="btn btn-danger slide_image_container" title="Delete Slide" href="index.php?delete_slide_id={$row['slide_id']}"><span class="glyphicon glyphicon-remove"></span></a>
     
 
   </div>
