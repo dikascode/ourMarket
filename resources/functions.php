@@ -71,7 +71,116 @@ function get_products() {
     $query = query("SELECT * FROM products");
     confirm($query);
 
-    while($row = fetch_array($query)) {
+    //pagination setup
+    $number_rows = mysqli_num_rows($query);
+
+    if (isset($_GET['page'])) {
+
+        //replacing non numbers with empty string using regular expressions
+
+        $page = preg_replace('#[^0-9]#', '', $_GET['page'] );
+
+    } else {
+        $page = 1;
+    }
+
+
+    //number of items per page
+    $perPage = 6;
+
+    $lastPage = ceil($number_rows/$perPage);
+
+    if ($page < 1) {
+        $page = 1;
+    } elseif ($page > $lastPage) {
+
+        $page = $lastPage;
+
+    }
+
+
+    //setting middle numbers for pagination clicks
+
+    $middleNumbers = '';
+
+    $sub1 = $page  - 1;
+    $sub2 =  $page - 2;
+    $add1 =  $page + 1;
+    $add2 = $page  + 2;
+
+    if ($page == 1) {
+
+        $middleNumbers .= '<li class="page-item active"><a>'.$page.'</a><li>';
+        $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
+                            .$_SERVER['PHP_SELF'].'?page= '.$add1.' ">' .$add1. '</a><li>';
+
+    } elseif($page == $lastPage) {
+
+        $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
+                            .$_SERVER['PHP_SELF'].'?page= '.$sub1.' ">' .$sub1. '</a><li>';
+        $middleNumbers .= '<li class="page-item active"><a>'.$page.'</a><li>';
+
+    } elseif($page > 2 && $page < ($lastPage - 1)) {
+
+        $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
+                            .$_SERVER['PHP_SELF'].'?page= '.$sub2.' ">' .$sub2. '</a><li>';
+
+        $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
+                            .$_SERVER['PHP_SELF'].'?page= '.$sub1.' ">' .$sub1. '</a><li>';
+
+        $middleNumbers .= '<li class="page-item active"><a>'.$page.'</a><li>';
+
+        $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
+                            .$_SERVER['PHP_SELF'].'?page= '.$add1.' ">' .$add1. '</a><li>';
+
+        $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
+                            .$_SERVER['PHP_SELF'].'?page= '.$add2.' ">' .$add2. '</a><li>';
+
+    }elseif ($page > 1 && $page < $lastPage) {
+
+        $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
+                            .$_SERVER['PHP_SELF'].'?page= '.$sub1.' ">' .$sub1. '</a><li>';
+
+        $middleNumbers .= '<li class="page-item active"><a>'.$page.'</a><li>';
+
+        $middleNumbers .= '<li class="page-item"><a class="page_link" href=" '
+                            .$_SERVER['PHP_SELF'].'?page= '.$add1.' ">' .$add1. '</a><li>';
+
+
+    }
+
+    //creating the limit variable to use in the query
+
+
+    $limit = 'LIMIT ' . ($page-1) * $perPage . ',' . $perPage;
+
+
+    $query2 = query("SELECT * FROM products {$limit}");
+    confirm($query2);
+   
+    $outputPagination = "";
+
+    //Setting prev and next button
+
+    if ($lastPage != 1 && $page != 1) {
+        $prev = $page-1;
+
+        $outputPagination .= '<li class="page-item"><a class="page_link" href=" '
+        .$_SERVER['PHP_SELF'].'?page= '.$prev.' ">Back</a><li>';
+    }
+
+    $outputPagination .= $middleNumbers;
+
+    if ($page != $lastPage) {
+        $next = $page + 1;
+        $outputPagination .= '<li class="page-item"><a class="page_link" href=" '
+        .$_SERVER['PHP_SELF'].'?page= '.$next.' ">Next</a><li>';
+    }
+
+
+    
+
+    while($row = fetch_array($query2)) {
 
     $product_image = display_image ($row['product_image']);
 
@@ -80,7 +189,7 @@ function get_products() {
 
 <div class="col-sm-4 col-lg-4 col-md-4">
 <div class="thumbnail">
-<a href="item.php?id={$row['product_id']}"><img src="../resources/$product_image" alt=""></a>
+<a href="item.php?id={$row['product_id']}"><img style="height:170px;" src="../resources/$product_image" alt=""></a>
 <div class="caption">
 <h4 class="pull-right">&#8358;{$row['product_price']}</h4>
 <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a>
@@ -98,7 +207,14 @@ DELIMETER;
     Echo $product;
     }
 
+    //pagination echo line
+
+    echo "<ul class='pagination'>{$outputPagination}</ul>";
+
 }
+
+
+
 
 // Function to list all categories
 
