@@ -11,12 +11,17 @@
 
 
  <?php add_slides(); ?>
+
+ <!-- Returned token value -->
+
+ <?php $crsf = form_protect(); ?>
   
 
 
 <div class="form-group">
 <label for="title">Slide Title</label>
 <input type="text" name="slide_title" class="form-control">
+<input type="hidden" name="crsf" value="<?php echo $crsf; ?>" class="form-control">
 
 </div>
 

@@ -19,6 +19,8 @@
 
 <?php 
 
+$crsf = form_protect();
+
 
   if(isset($_GET['id']))  {
 
@@ -71,7 +73,8 @@
 
       <div class="col-xs-3">
         <label for="product-price">Product Price</label>
-        <input type="number" name="product_price" class="form-control" size="60" value ="<?php echo $product_price;?>">
+          <input type="number" name="product_price" class="form-control" size="60" value ="<?php echo $product_price;?>">
+          <input type="hidden" name="crsf" value="<?php echo $crsf; ?>">
       </div>
     </div>
 

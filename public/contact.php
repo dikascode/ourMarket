@@ -3,6 +3,8 @@
 
 <?php require_once("../resources/config.php"); ?>
 
+<?php $crsf = form_protect(); ?>
+
 
 <!-- Header-->
 <?php include(TEMPLATE_FRONT . DS . "header.php");?>
@@ -33,6 +35,7 @@
                                 </div>
                                 <div class="form-group">
                                     <input name="subject" type="text" class="form-control" placeholder="Your Subject" id="phone" required data-validation-required-message="Please enter your Subject.">
+                                    <input name="crsf" type="hidden" class="form-control" value="<?php echo $crsf; ?>">
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>

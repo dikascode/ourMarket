@@ -18,6 +18,8 @@
   </h1>
 
   <?php add_product () ?>
+
+  <?php $crsf = form_protect(); ?>
   </div>
                 
 
@@ -30,6 +32,7 @@
   <div class="form-group">
       <label for="product-title">Product Title </label>
           <input type="text" name="product_title" class="form-control">
+          <input type="hidden" name="crsf" value="<?php echo $crsf; ?>">
         
       </div>
 

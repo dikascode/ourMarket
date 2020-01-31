@@ -5,6 +5,9 @@
     <!-- Page Content -->
     <div class="container">
 
+    <!-- CRSF returned token -->
+    <?php $crsf = form_protect(); ?>
+
       <header>
             <h1 class="text-center">Login</h1>
             <h4 class='bg-danger text-center'><?php display_message() ?></h4>
@@ -18,6 +21,10 @@
                 </div>
                  <div class="form-group"><label for="password">
                     Password<input type="password" name="password" class="form-control"></label>
+                </div>
+
+                <div class="form-group"><label for="">
+                        <input type="hidden" name="crsf" class="form-control" value="<?php echo $crsf; ?>"></label>
                 </div>
 
                 <div class="form-group">

@@ -13,8 +13,7 @@
 
 <form action="" method="post" enctype="multipart/form-data">
 
-
-
+<?php $crsf = form_protect(); ?>
 
   <div class="col-md-6">
 
@@ -28,6 +27,7 @@
      <div class="form-group">
       <label for="username">Username</label>
       <input type="text" name="username" class="form-control" >
+      <input type="hidden" name="crsf" value="<?php echo $crsf; ?>">
          
      </div>
 
@@ -38,8 +38,6 @@
          
      </div>
 
-
-
       <div class="form-group">
           <label for="password">Password</label>
       <input type="password" name="password" class="form-control"  >
@@ -48,7 +46,7 @@
 
       <div class="form-group">
 
-      <a id="user-id" class="btn btn-danger" href="">Delete</a>
+      <!-- <a id="user-id" class="btn btn-danger" href="">Delete</a> -->
 
       <input type="submit" name="add_user" class="btn btn-primary pull-right" value="Add User" >
          

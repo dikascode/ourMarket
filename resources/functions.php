@@ -3,7 +3,23 @@
 //upload directory
 $upload_directory = "uploads";
 
-// Helper fucntions
+/*****Helper fucntions****/
+
+
+    //crsf function for form protection
+
+function form_protect () {
+    //create a key for hash_hmac function
+
+    if (empty($_SESSION['key'])) 
+        $_SESSION['key'] = bin2hex(random_bytes(32));
+
+    //create CRSF token
+
+    return $crsf = hash_hmac('sha256', 'This is our market web app', $_SESSION['key'], false);
+    
+    
+}
 
 
 function last_id () {
@@ -306,23 +322,33 @@ echo $category_links;
 // function for user login
 function login_user(){
 
+   
+
 if(isset($_POST['submit'])){
-    $username = escape_string($_POST['username']);
-    $password = escape_string($_POST['password']);
+    
+    $crsf = form_protect();
+        //validate crsf token
+    if (hash_equals($crsf, $_POST['crsf'])) {
+         $username = escape_string($_POST['username']);
+         $password = escape_string(sha1($_POST['password']));
 
-$query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password}' ");
+        $query = query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password}' ");
 
-confirm($query);
+        confirm($query);
 
-if(mysqli_num_rows($query) === 0){
-    set_message('Your Username or Password is wrong');
-    redirect("login.php");
-}else{
-    $_SESSION['username'] = $username;
-    // set_message('Welcome to Admin {$username}');
-    redirect("admin");
+        if(mysqli_num_rows($query) === 0){
+            set_message('Your Username or Password is wrong');
+            redirect("login.php");
+        }else{
+            $_SESSION['username'] = $username;
+            // set_message('Welcome to Admin {$username}');
+            redirect("admin");
 }
 
+        }else{
+            echo "<p class='bg-danger'>CRSF Token failed</p>";
+        }
+    
 
 }
 
@@ -334,34 +360,44 @@ if(mysqli_num_rows($query) === 0){
 
 function send_message(){
 
+    $crsf = form_protect();
+
     if(isset($_POST['submit'])){
-        
-        $to   = "dikaemanuel@gmail.com";
-        $name = $_POST['name'];
-        $subject = $_POST['subject'];
-        $email = $_POST['email'];
-        $message = $_POST['message'];
 
-        // To send HTML mail, the Content-type header must be set
-$headers  = 'MIME-Version: 1.0' . "\r\n";
-$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
- 
-// Create email headers
-$headers .= 'From: '.$email."\r\n".
-    'Reply-To: '.$email."\r\n" .
-    'X-Mailer: PHP/' . phpversion();
+        if (hash_equals($crsf, $_POST['crsf'])) {
 
-    $result =  mail($to, $subject, $message, $headers);
-
+            $to   = "dikaemanuel@gmail.com";
+            $name = $_POST['name'];
+            $subject = $_POST['subject'];
+            $email = $_POST['email'];
+            $message = $_POST['message'];
     
+            // To send HTML mail, the Content-type header must be set
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+     
+    // Create email headers
+    $headers .= 'From: '.$email."\r\n".
+        'Reply-To: '.$email."\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+    
+        $result =  mail($to, $subject, $message, $headers);
+    
+        
+    
+        if(!$result){
+           set_message("Sorry we could not send your message");
+           redirect("contact.php");
+        }else{
+            set_message("Your messsage has been sent");
+            redirect("contact.php");
+        }
 
-    if(!$result){
-       set_message("Sorry we could not send your message");
-       redirect("contact.php");
-    }else{
-        set_message("Your messsage has been sent");
-        redirect("contact.php");
-    }
+        } else {
+            echo "<p class='bg-danger'>CRSF Token Failed</p>";
+        }
+        
+      
 
  
     
@@ -455,9 +491,14 @@ DELIMETER;
 // Adding product in Admin
 
 function add_product () {
+    
+    $crsf = form_protect();
 
     if (isset($_POST['publish'])) {
-        $product_title          = escape_string($_POST['product_title']);
+
+            //validate crsf token
+    if (hash_equals($crsf, $_POST['crsf'])) {
+         $product_title          = escape_string($_POST['product_title']);
         $product_cat_id         = escape_string($_POST['product_category_id']);
         $product_price          = escape_string($_POST['product_price']);
         $product_quantity       = escape_string($_POST['product_quantity']);
@@ -481,6 +522,10 @@ function add_product () {
         confirm($query);
         set_message("New Product with ID {$last_id} was Successfully Added");
         redirect("index.php?products");
+    }else {
+        echo "<p class='bg-danger'>CRSF Token Failed</p>";
+    }
+       
 
     }
 
@@ -523,7 +568,13 @@ function show_product_category_title ($product_category_id) {
 
 function update_product () {
 
+    $crsf = form_protect();
+
     if (isset($_POST['update'])) {
+
+            //validate crsf token
+    if (hash_equals($crsf, $_POST['crsf'])) {
+
         $product_title          = escape_string($_POST['product_title']);
         $product_cat_id         = escape_string($_POST['product_category_id']);
         $product_price          = escape_string($_POST['product_price']);
@@ -564,6 +615,12 @@ function update_product () {
         confirm($send_update_query);
         set_message("Product Updated Successfully");
         redirect("index.php?products");
+
+    }else {
+        echo "<p class='bg-danger'>CRSF Token Failed</p>";
+    }
+
+        
 
     }
 
@@ -607,24 +664,35 @@ echo $category;
 
         if (isset($_POST['add_category'])) {
 
-            $cat_title = escape_string($_POST['cat_title']);
+            $crsf = form_protect();
 
-            if (empty($cat_title) || $cat_title == " ") {
+                //validate crsf token
+            if (hash_equals($crsf, $_POST['crsf'])) {
 
-                echo "<h3 class='bg-danger'>Category Title is Required</h3>";
+                $cat_title = escape_string($_POST['cat_title']);
 
-            } else {
+                            if (empty($cat_title) || $cat_title == " ") {
 
-                $query = query("INSERT INTO categories(cat_title) VALUES('$cat_title')");
+                                echo "<h3 class='bg-danger'>Category Title is Required</h3>";
 
-                confirm($query);
-                $last_id = last_id();
-                $category_title = show_product_category_title($last_id);
-                set_message($category_title . " Category Created");
-                redirect("index.php?categories");
+                            } else {
+
+                                $query = query("INSERT INTO categories(cat_title) VALUES('$cat_title')");
+
+                                confirm($query);
+                                $last_id = last_id();
+                                $category_title = show_product_category_title($last_id);
+                                set_message($category_title . " Category Created");
+                                redirect("index.php?categories");
 
 
+                            }
+            }else {
+                echo "<p class='bg-danger'>CRSF Token Failed</p>";
             }
+
+
+            
          
         }
     }
@@ -667,9 +735,15 @@ echo $category;
     function add_user() {
 
         if (isset($_POST['add_user'])) {
+
+            $crsf = form_protect();
+
+        //validate crsf token
+        if (hash_equals($crsf, $_POST['crsf'])) {
+
             $username       = escape_string($_POST['username']);
             $email          = escape_string($_POST['email']);
-            $password       = escape_string($_POST['password']);
+            $password       = escape_string(sha1($_POST['password']));
             $user_photo     = escape_string($_FILES['file']['name']);
             $photo_temp     = $_FILES['file']['tmp_name'];
 
@@ -682,6 +756,11 @@ echo $category;
             set_message("User Created");
 
             redirect("index.php?users");
+
+        }else {
+            echo "<p class='bg-danger'>CRSF Token Failed</p>";
+        }
+            
         }
     }
 
@@ -732,6 +811,11 @@ echo $category;
 
         if(isset($_POST['add_slide'])) {
 
+            $crsf = form_protect();
+
+                //validate crsf token
+         if (hash_equals($crsf, $_POST['crsf'])) {
+             
             $slide_title          = escape_string($_POST['slide_title']);
             $slide_image          = escape_string($_FILES['file']['name']);
             $slide_image_loc      = $_FILES['file']['tmp_name'];
@@ -749,6 +833,13 @@ echo $category;
 
                 redirect('index.php?slides');
             }
+
+         }else{
+
+             echo "<p class='bg-danger'>CRSF Token Failed</p>";
+             
+         }
+
         }
 
 

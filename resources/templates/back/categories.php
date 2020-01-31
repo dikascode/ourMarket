@@ -18,12 +18,15 @@
 <div class="col-md-4">
 
 <?php add_category();  ?>
+
+<?php $crsf = form_protect(); ?>
     
     <form action="" method="post">
     
         <div class="form-group">
             <label for="category-title">Title</label>
             <input name="cat_title" type="text" class="form-control">
+            <input name="crsf" type="hidden" value="<?php echo $crsf; ?>">
         </div>
 
         <div class="form-group">
