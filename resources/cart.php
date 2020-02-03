@@ -172,43 +172,42 @@ function flutter_wave (){
 
 $rave = <<<DELIMETER
 
-<form>
-<script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-<button class="btn btn-primary" type="button" onClick="payWithRave()">Pay Now</button>
-</form>
+<input type="submit" style="cursor:pointer;" value="Pay Now" id="submit" />
 
-<script>
-const API_publicKey = "FLWPUBK-69349e40463f5677a1cf8c8d719af2bf-X";
 
-function payWithRave() {
-var x = getpaidSetup({
-PBFPubKey: "FLWPUBK-69349e40463f5677a1cf8c8d719af2bf-X",
-customer_email: "user@example.com",
-amount: {$_SESSION['total_price']},
-customer_phone: "234099940409",
-currency: "NGN",
-txref: "rave-123456",
-meta: [{
-metaname: "flightID",
-metavalue: "AP1234"
-}],
-onclose: function() {},
-callback: function(response) {
-var txref = response.tx.txRef; // collect txRef returned and pass to a 	server page to complete status check.
-console.log("This is the response returned after a charge", response);
-if (
-response.tx.chargeResponseCode == "00" ||
-response.tx.chargeResponseCode == "0"
-) {
-// redirect to a success page
-} else {
-// redirect to a failure page.
-}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementById('submit').addEventListener('click', function () {
 
-x.close(); // use this to close the modal immediately after payment.
-}
-});
-}
+    var flw_ref = "", chargeResponse = "", trxref = "OURMARKET"+ Math.random(), API_publicKey = "FLWPUBK_TEST-da442eaa54922b8e2b162340798fe4d6-X";
+
+    getpaidSetup(
+      {
+        PBFPubKey: "FLWPUBK_TEST-da442eaa54922b8e2b162340798fe4d6-X",
+      	customer_email: "user@example.com",
+      	amount: {$_SESSION['total_price']},
+      	customer_phone: "234099940409",
+      	currency: "NGN",
+      	txref: "OURMARKET"+ Math.random(),
+      	meta: [{metaname:"flightID", metavalue: "AP1234"}],
+        onclose:function(response) {
+        },
+        callback:function(response) {
+          currency = "NGN"
+          amount = {$_SESSION['total_price']};
+          txref = response.tx.txRef, chargeResponse = response.tx.chargeResponseCode;
+          if (chargeResponse == "00" || chargeResponse == "0") {
+            window.location = "../public/paymentverification.php?txref="+txref+"&amt="+amount+"&cur="+currency; //Add your success page here
+          } else {
+            window.location = "https://your_URL/paymentverification.php?txref="+txref;  //Add your failure page here
+          }
+        }
+      }
+    );
+    });
+  });
 </script>
 
 DELIMETER;
@@ -216,13 +215,67 @@ DELIMETER;
 return $rave;
 
     }
+ 
 }
 
 
 
 
 // Reports
+function transaction_verification () {
+    //for flutterwave
+
+    if (isset($_GET['txref'])) {
+        $ref = $_GET['txref'];
+        $amount = $_GET['amt']; //Correct Amount from Server
+        $currency = $_GET['cur']; //Correct Currency from Server
+
+        $query = array(
+            "SECKEY" => "FLWSECK_TEST-9de4c7a8ff92cc450ed37d1c3bbef81c-X",
+            "txref" => $ref
+        );
+
+        $data_string = json_encode($query);
+                
+        $ch = curl_init('https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify');                                                                      
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                              
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
+        $response = curl_exec($ch);
+
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $header = substr($response, 0, $header_size);
+        $body = substr($response, $header_size);
+
+        curl_close($ch);
+
+        $resp = json_decode($response, true);
+        
+
+      	$paymentStatus = $resp['data']['status'];
+        $chargeResponsecode = $resp['data']['chargecode'];
+        $chargeAmount = $resp['data']['amount'];
+        $chargeCurrency = $resp['data']['currency'];
+
+        if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount)  && ($chargeCurrency == $currency)) {
+            echo "<pre>";
+            print_r($resp);
+            echo "</pre>";
+
+            echo $chargeAmount;
+        } else {
+            //Dont Give Value and return to Failure page
+        }
+    }
+
+}
+
+
 function process_transaction() {
+        //for paypal
 
     // Obtain the payment GET details from the url
 
