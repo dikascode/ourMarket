@@ -168,7 +168,11 @@ return $paypal_button;
 // flutter wave api
 function flutter_wave (){
 
-    if (isset($_SESSION['item_quantity'])){
+    // echo "<pre>";
+    // print_r($_SESSION);
+    // echo "</pre>";
+
+    if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1){
 
 $rave = <<<DELIMETER
 
@@ -255,17 +259,83 @@ function transaction_verification () {
         $resp = json_decode($response, true);
         
 
-      	$paymentStatus = $resp['data']['status'];
+        $paymentStatus = $resp['data']['status'];
+        $tnx_ref = $resp['data']['txref'];
         $chargeResponsecode = $resp['data']['chargecode'];
         $chargeAmount = $resp['data']['amount'];
         $chargeCurrency = $resp['data']['currency'];
+        $cust_email = $resp['data']['custemail'];
+        $cust_number = $resp['data']['custphone'];
+        $cust_name = $resp['data']['custname'];
+
+
+        //sesssions for customer
+
+        $_SESSION['cust_email']     = $cust_email;
+        $_SESSION['cust_number']    = $cust_number;
+        $_SESSION['cust_name']      = $cust_name;
 
         if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount)  && ($chargeCurrency == $currency)) {
-            echo "<pre>";
-            print_r($resp);
-            echo "</pre>";
 
-            echo $chargeAmount;
+            $total = 0;
+            $item_quantity = 0;
+
+
+           // insert into orders table
+           $send_order = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency, cust_email, cust_number, cust_name)
+           VALUES('$chargeAmount', '$tnx_ref', '$paymentStatus', '$chargeCurrency', '$cust_email', '$cust_number', '$cust_name')");
+
+           //Obtain the last inserted id
+           $last_id = last_id();
+
+           confirm($send_order);
+        
+            foreach ($_SESSION as $name => $value) {
+
+                $length = strlen($name);
+                $id     = substr($name, 8, $length);
+                     
+                if ($value > 0) {
+        
+                    // Getting the substring of the session amd comparing to get the product id
+                    if (substr($name, 0, 8) == "product_") {
+        
+                        //Select product from database
+                        $product_query = query("SELECT * FROM products WHERE product_id =" . escape_string($id) . " ");
+                        confirm($product_query);
+                
+                        while($row = fetch_array($product_query)) {
+        
+                            //getting the sub-total of the product
+        
+                            $sub = $row['product_price'] * $value;
+                            $item_quantity += $value;
+                            $product_price = $row['product_price'];
+                            $product_title = $row['product_title'];
+                           
+                            // insert into reports table
+                            $insert_report = query("INSERT INTO reports (product_id, order_id, product_price, product_title, product_quantity, cust_email, cust_number, cust_name)
+                            VALUES('$id', '$last_id', '$product_price', '$product_title',  '$value', '{$_SESSION['cust_email']}', '{$_SESSION['cust_number']}', '{$_SESSION['cust_name']}')");
+            
+                            confirm($insert_report);
+                
+                           
+            
+                            //total price n item quantity
+                            $total += $sub;
+                            $item_quantity;
+
+                        }
+            
+                        }
+        
+                }
+        
+                
+            }
+
+            session_destroy();
+    
         } else {
             //Dont Give Value and return to Failure page
 
@@ -323,7 +393,7 @@ function process_transaction() {
                          $product_price = $row['product_price'];
                          $product_title = $row['product_title'];
                         
-                         // insert into orders table
+                         // insert into reports table
                          $insert_report = query("INSERT INTO reports (product_id, order_id, product_price, product_title, product_quantity)
                          VALUES('$id', '$last_id', '$product_price', '$product_title',  '$value')");
          
