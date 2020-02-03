@@ -201,7 +201,7 @@ $rave = <<<DELIMETER
           if (chargeResponse == "00" || chargeResponse == "0") {
             window.location = "../public/paymentverification.php?txref="+txref+"&amt="+amount+"&cur="+currency; //Add your success page here
           } else {
-            window.location = "https://your_URL/paymentverification.php?txref="+txref;  //Add your failure page here
+            window.location = "../public/payverification_fail.php?txref="+txref;  //Add your failure page here
           }
         }
       }
@@ -268,6 +268,8 @@ function transaction_verification () {
             echo $chargeAmount;
         } else {
             //Dont Give Value and return to Failure page
+
+            redirect("../public/payverification_fail.php");
         }
     }
 
