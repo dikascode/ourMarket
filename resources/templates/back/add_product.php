@@ -48,7 +48,7 @@
 
         <div class="col-xs-3">
           <label for="product-price">Product Price</label>
-          <input type="number" name="product_price" class="form-control" size="60">
+          <input type="number" name="product_price" min="50" max="30000" class="form-control" size="60">
         </div>
       </div>
 
@@ -90,7 +90,7 @@
 
       <div class="form-group">
         <label for="product-title">Product Quantity</label>
-          <input type="number" class="form-control" name="product_quantity">
+          <input type="number" min="1" max="100" class="form-control" name="product_quantity">
       </div>
 
   <!-- Product Tags -->

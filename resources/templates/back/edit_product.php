@@ -73,7 +73,7 @@ $crsf = form_protect();
 
       <div class="col-xs-3">
         <label for="product-price">Product Price</label>
-          <input type="number" name="product_price" class="form-control" size="60" value ="<?php echo $product_price;?>">
+          <input type="number"  name="product_price" min="50" max="30000" class="form-control" size="60" value ="<?php echo $product_price;?>">
           <input type="hidden" name="crsf" value="<?php echo $crsf; ?>">
       </div>
     </div>
@@ -118,7 +118,7 @@ $crsf = form_protect();
 
     <div class="form-group">
       <label for="product-title">Product Quantity</label>
-        <input type="number" class="form-control" name="product_quantity" value = "<?php echo $product_quantity; ?>">
+        <input type="number" class="form-control" min="1" max="100" name="product_quantity" value = "<?php echo $product_quantity; ?>">
     </div>
 
 <!-- Product Tags -->

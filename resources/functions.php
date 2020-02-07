@@ -212,13 +212,17 @@ function get_products() {
 </h4>
 <p>{$row['short_desc']}</p>
 
-<a class="btn btn-primary" target="_blank" href="../resources/cart.php?add={$row['product_id']}">Add to Cart</a>
+<form method="post" class="submit_pro">
+<button type="submit" class="btn btn-sm bg-primary pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+</form>
 </div>
 
 </div>
 </div>
 
 DELIMETER;
+
+// target="_blank" href="../resources/cart.php?add={$row['product_id']}"
 
     Echo $product;
     }

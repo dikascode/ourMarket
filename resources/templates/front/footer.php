@@ -20,6 +20,9 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 
+<!-- Cart script -->
+<script src="js/cart.js"></script>
+
 </body>
 
 </html>

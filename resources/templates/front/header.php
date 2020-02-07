@@ -14,6 +14,9 @@
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    	<!-- font awesome link fonts -->
+	<link href="fa/css/all.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="css/shop-homepage.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">

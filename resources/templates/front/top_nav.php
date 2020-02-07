@@ -1,3 +1,14 @@
+<?php
+
+    global $cart_data;
+
+    if (isset($_SESSION['product_cart']) && !empty($_SESSION['product_cart'])) {
+        $cart_data = $_SESSION['product_cart'];
+    }
+
+
+?>
+
 <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -27,6 +38,18 @@
                     <li>
                         <a href="contact.php">Contact</a>
                     </li>
+
+                </ul>
+
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a>
+                            <button class="btn" type="button" id="ref">
+                                <span><i class="fas fa-shopping-cart"></i></span>
+                                <span class="badge badge-danger"><?php echo @count($cart_data); ?></span>
+                            </button>
+                        </a>
+                    <li>
 
                 </ul>
             </div>
