@@ -72,11 +72,12 @@ require_once("config.php"); ?>
         $item_number = 1;
         $amount = 1;
         $quantity = 1;
-        
+        $conta = 1;
 
         foreach ($_SESSION as $name => $value) {
             
             if ($value > 0) {
+                
 
                 // Getting the substring of the session amd comparing to get the product id
                 if (substr($name, 0, 8) == "product_") {
@@ -97,9 +98,11 @@ require_once("config.php"); ?>
 
                         $sub = $row['product_price'] * $value;
                         $item_quantity += $value;
+                        
             
 $product = <<<DELIMETER
 <tr>
+<td>$conta</td>
 <td>{$row['product_title']}<br>
 <img width="100" src="../resources/$product_image">
 </td>
@@ -135,14 +138,27 @@ echo $product;
 
 
                         $_SESSION['item_quantity'] = $item_quantity;
+
+                        
                     }
-        
+
+                        $_SESSION['conta'] = $conta;
+                        
+                        //increase conta by 1
+                        $conta++;
+                        
+                        
+
                     }
+
+                    
 
             }
 
             
         }
+        
+        
 
     }
 

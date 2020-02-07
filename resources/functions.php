@@ -211,10 +211,7 @@ function get_products() {
 <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a>
 </h4>
 <p>{$row['short_desc']}</p>
-
-<form method="post" class="submit_pro">
-<button type="submit" class="btn btn-sm bg-primary pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
-</form>
+<a class="btn btn-primary" target="_self" href="../resources/cart.php?add={$row['product_id']}">Add to Cart</a>
 </div>
 
 </div>
@@ -222,9 +219,14 @@ function get_products() {
 
 DELIMETER;
 
+echo $product;
 // target="_blank" href="../resources/cart.php?add={$row['product_id']}"
 
-    Echo $product;
+// <form method="post" class="submit_pro">
+// <button type="submit" class="btn btn-sm bg-primary pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+// </form>
+
+    
     }
 
     //pagination echo line

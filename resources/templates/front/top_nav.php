@@ -43,10 +43,10 @@
 
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a>
+                        <a href="checkout.php">
                             <button class="btn" type="button" id="ref">
                                 <span><i class="fas fa-shopping-cart"></i></span>
-                                <span class="badge badge-danger"><?php echo @count($cart_data); ?></span>
+                                <span class="badge badge-danger"><?php echo $_SESSION['conta']; ?></span>
                             </button>
                         </a>
                     <li>
