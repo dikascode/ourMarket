@@ -11,14 +11,25 @@
 
     <title>Our Market</title>
 
+    <!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    	<!-- font awesome link fonts -->
+    		<!-- font awesome link fonts -->
 	<link href="fa/css/all.css" rel="stylesheet">
+
+    <!-- Slick -->
+	<link type="text/css" rel="stylesheet" href="css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+
+    <!-- nouislider -->
+	<link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
 
     <!-- Custom CSS -->
     <link href="css/shop-homepage.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
     <link href="css/styles.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -33,6 +44,4 @@
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <?php include(TEMPLATE_FRONT . DS . "top_nav.php") ?>
-    </nav>
+    <?php include(TEMPLATE_FRONT . DS . "top_nav.php") ?>

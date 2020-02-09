@@ -264,13 +264,30 @@ function get_categories(){
        
         // heredoc
     $category_links = <<<DELIMETER
-<a href='category.php?id={$row['cat_id']}' class='list-group-item'>{$row['cat_title']}</a>
+<li><a href='category.php?id={$row['cat_id']}'>{$row['cat_title']}</a><li>
 DELIMETER;
 
 echo $category_links;
 
     }
 
+}
+
+
+//get category selection on index page
+
+function get_cat_select() {
+    $query = query("SELECT * FROM categories");
+    confirm($query);
+
+    while($row = fetch_array($query)) {
+        $cat_options = <<<DELIMETER
+        <option value="{$row['cat_id']}">{$row['cat_title']}</option>
+
+        DELIMETER;
+
+        echo $cat_options;
+    }
 }
 
 
@@ -929,6 +946,7 @@ $slides = <<<DELIMETER
 <img class="slide-image"  src="../resources/$slide_image" alt="{$row['slide_title']}">
 </div>
 
+
 DELIMETER;
 
         echo $slides;
@@ -961,6 +979,39 @@ $slide_thumb_admin = <<<DELIMETER
 DELIMETER;
 
         echo $slide_thumb_admin;
+
+        }
+
+    }
+
+
+    // New collection functions
+
+    function get_new_collections () {
+
+        $query = query("SELECT * FROM products ORDER BY product_id%2=0 DESC LIMIT 3");
+        confirm($query);
+
+        while ($row = fetch_array($query)) {
+
+            $slide_image = display_image ($row['product_image']);
+
+$slides = <<<DELIMETER
+
+<div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3">
+    <a class="banner banner-1" href="item.php?id={$row['product_id']}">
+        <img src="../resources/$slide_image" alt="{$row['product_title']}">
+        <div class="banner-caption text-center">
+            <h2 class="white-color">NEW COLLECTION</h2>
+            <h4 class="primary-btn">{$row['product_title']}</h4>
+        </div>
+    </a>
+</div>
+
+
+DELIMETER;
+
+        echo $slides;
 
         }
 
