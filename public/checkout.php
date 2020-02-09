@@ -24,6 +24,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+            <th>S/N</th>
             <th>Product</th>
             <th>Price</th>
             <th>Quantity</th>

@@ -1,12 +1,5 @@
 <?php
-
-    global $cart_data;
-
-    if (isset($_SESSION['product_cart']) && !empty($_SESSION['product_cart'])) {
-        $cart_data = $_SESSION['product_cart'];
-    }
-
-
+require_once("../resources/config.php"); 
 ?>
 
 <div class="container">
@@ -46,7 +39,7 @@
                         <a href="checkout.php">
                             <button class="btn" type="button" id="ref">
                                 <span><i class="fas fa-shopping-cart"></i></span>
-                                <span class="badge badge-danger"><?php echo $_SESSION['conta']; ?></span>
+                                <span class="badge badge-danger"><?php echo cart_count(); ?></span>
                             </button>
                         </a>
                     <li>

@@ -12,16 +12,16 @@
 
             $product_num = escape_string($_POST['product_num']);
 
-            if (isset($_SESSION['product_cart'])) {
+            if (isset($_SESSION['item_cart'])) {
 
-                $cart_val = $_SESSION['product_cart'];
+                $cart_val = $_SESSION['item_cart'];
 
                 //checking if the product in the array already.
 
                 if (!in_array($product_num, $cart_val)) {
 
                     $counter_no = $_SESSION['counter'] + 1;
-                    $_SESSION['product_cart'][$counter_no] = $product_num;
+                    $_SESSION['item_cart'][$counter_no] = $product_num;
                     $_SESSION['counter'] = $counter_no;
 
 
@@ -39,7 +39,7 @@
 
             } else {
 
-                $_SESSION['product_cart'][1] = $product_num;
+                $_SESSION['item_cart'][1] = $product_num;
                 $_SESSION['counter'] = 1;
 
                 $json['status'] = 100;

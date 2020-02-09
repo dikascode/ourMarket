@@ -40,4 +40,9 @@
 
     <?php include(TEMPLATE_FRONT . DS . "footer.php") ?>
 
+    <script>
+        //$('a[target="_blank"]').removeAttr('target');
+    </script>
+
+
    

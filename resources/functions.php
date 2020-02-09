@@ -80,6 +80,20 @@ function fetch_array($result){
 
 /********************************** FRONT END FUNCTIONS ****************************************** */
 
+//cart function
+
+function cart_count () {
+    //global $cart_data;
+
+    if (isset($_SESSION['conta'])) {
+        $cart_data = $_SESSION['conta'];
+
+        return $cart_data;
+
+        
+    }
+}
+
 
 // get products fucntions
 
@@ -211,7 +225,7 @@ function get_products() {
 <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a>
 </h4>
 <p>{$row['short_desc']}</p>
-<a class="btn btn-primary" target="_self" href="../resources/cart.php?add={$row['product_id']}">Add to Cart</a>
+<a class="btn btn-primary cartLink" target="_blank" rel="noopener" href="../resources/cart.php?add={$row['product_id']}">Add to Cart</a>
 </div>
 
 </div>
@@ -220,6 +234,7 @@ function get_products() {
 DELIMETER;
 
 echo $product;
+
 // target="_blank" href="../resources/cart.php?add={$row['product_id']}"
 
 // <form method="post" class="submit_pro">

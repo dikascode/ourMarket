@@ -1,4 +1,7 @@
+
 $(document).ready(function() {
+
+
     $('.submit_pro').on('submit', function(e) {
         e.preventDefault();
         let product_num = $(this).find('.pc_data').data('dataid');
@@ -32,3 +35,12 @@ $(document).ready(function() {
         }
     });
 });
+
+let classname =  document.getElementsByClassName("cartLink");
+Array.from(classname).forEach(function(element) {
+ element.addEventListener('click', function (e){
+     //alert('hi');
+     //window.location= "index.php";
+ });
+});
+
