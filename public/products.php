@@ -8,19 +8,13 @@
 
         <div class="row">
 
-
-            <div class="col-md-9">
-
-                <div class="row carousel-holder">
-
-                    <div class="col-md-12">
-                        <!-- carousel here -->
-                        <?php include(TEMPLATE_FRONT . DS . "slider.php") ?>
-                    </div>
-
+            <div class="row">
+                <div class="col-md-6" style="margin-top: 2%;">
+                    <h2>All Products</h2>
                 </div>
+            </div>
 
-                <div class="row">
+            <div class="row">
 
                 <?php echo get_products(); ?>
 

@@ -102,27 +102,21 @@ require_once("config.php"); ?>
             
 $product = <<<DELIMETER
 <tr>
-<td>$conta</td>
-<td>{$row['product_title']}<br>
-<img width="100" src="../resources/$product_image">
-</td>
-<td>&#8358;{$row['product_price']}</td>
-<td>$value</td>
-<td>&#8358;$sub</td>
-<td>
-<a class='btn btn-warning' href='../resources/cart.php?remove={$row['product_id']}'><span class='glyphicon glyphicon-minus'></span></a> 
-<a class='btn btn-success' href='../resources/cart.php?add={$row['product_id']}'><span class='glyphicon glyphicon-plus'></span></a> 
-<a class='btn btn-danger' href='../resources/cart.php?delete={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a>
-</td>
-
+    <td>$conta</td>
+    <td class="thumb"><img width="100" src="../resources/$product_image" alt="{$row['product_title']}"></td>
+    <td class="details">
+        <a href="#">{$row['product_title']}</a>
+    </td>
+    <td class="price text-center"><strong>&#8358;{$row['product_price']}</strong></td>
+    <td class="price text-center">$value</td>
+    <td class="total text-center"><strong class="primary-color">&#8358;$sub</strong></td>
+    <td></td>
+    <td>
+    <a class='btn btn-warning' href='../resources/cart.php?remove={$row['product_id']}'><span class='glyphicon glyphicon-minus'></span></a> 
+    <a class='btn btn-success' href='../resources/cart.php?add={$row['product_id']}'><span class='glyphicon glyphicon-plus'></span></a> 
+    <a class='btn btn-danger' href='../resources/cart.php?delete={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a>
+    </td>
 </tr>
-
-
-<input type="hidden" name="item_name_{$item_name}" value="{$row['product_title']}">
-<input type="hidden" name="item_number_{$item_number}" value="{$row['product_id']}">
-<input type="hidden" name="amount_$amount" value="{$row['product_price']}">
-<input type="hidden" name="quantity_{$quantity}" value="{$value}">
-
 
 DELIMETER;
 
@@ -162,6 +156,7 @@ echo $product;
 
     }
 
+//paypal
 
 function show_paypal() {
 
@@ -181,6 +176,7 @@ return $paypal_button;
    
 }
 
+
 // flutter wave api
 function flutter_wave (){
 
@@ -192,7 +188,7 @@ function flutter_wave (){
 
 $rave = <<<DELIMETER
 
-<input type="submit" style="cursor:pointer;" value="Pay Now" id="submit" />
+<input type="submit" class="primary-btn" style="cursor:pointer;" value="Pay Now" id="submit" />
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

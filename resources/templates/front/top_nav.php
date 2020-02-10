@@ -80,7 +80,7 @@ require_once("../resources/config.php");
 								</div>
 								<strong class="text-uppercase">My Cart:</strong>
 								<br>
-								<span>35.20$</span>
+								<span>&#x20a6;<?php if(isset($_SESSION['total_price'])) { echo $_SESSION['total_price'];} ?></span>
 							</a>
 							<div class="custom-menu">
 								<div id="shopping-cart">
@@ -141,13 +141,7 @@ require_once("../resources/config.php");
             
             <?php
 
-            //Only for index page
-
-            if(substr($_SERVER['REQUEST_URI'], 33) == 'index.php' || substr($_SERVER['REQUEST_URI'], 33, 8) == 'item.php') {
-                include(TEMPLATE_FRONT . DS . "side_nav.php"); 
-            }
-            
-        
+                include(TEMPLATE_FRONT . DS . "side_nav.php");
             ?>
 
 				<!-- menu nav -->

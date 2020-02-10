@@ -17,5 +17,5 @@ require_once("../resources/config.php");
 			<!-- /row -->
 		</div>
 		<!-- /container -->
-	</div>
+</div>
     <!-- /section -->

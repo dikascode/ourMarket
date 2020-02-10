@@ -116,7 +116,7 @@ function get_products() {
 
 
     //number of items per page
-    $perPage = 6;
+    $perPage = 8;
 
     $lastPage = ceil($number_rows/$perPage);
 
@@ -217,7 +217,7 @@ function get_products() {
         // heredoc
     $product = <<<DELIMETER
 
-<div class="col-sm-4 col-lg-4 col-md-4">
+<div class="col-sm-3 col-lg-3 col-md-3">
 <div class="thumbnail">
 <a href="item.php?id={$row['product_id']}"><img style="height:170px;" src="../resources/$product_image" alt=""></a>
 <div class="caption">

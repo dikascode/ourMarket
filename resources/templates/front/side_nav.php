@@ -1,6 +1,15 @@
 <div id="responsive-nav">
 				
-				<div class="category-nav">
+				
+
+			<?php  if(substr($_SERVER['REQUEST_URI'], 33) == 'index.php') {
+					echo "<div class='category-nav'>";
+					
+					}else{
+						echo "<div class='category-nav show-on-click'>";
+					}
+			
+			?>
 					<span class="category-header">Categories <i class="fa fa-list"></i></span>
 					<ul class="category-list">
 						<li class="dropdown side-dropdown">
