@@ -381,7 +381,7 @@ if(isset($_POST['submit'])){
             $_SESSION['username'] = $username;
             // set_message('Welcome to Admin {$username}');
             redirect("admin");
-}
+        }
 
         }else{
             echo "<p class='bg-danger'>CRSF Token failed</p>";
@@ -461,7 +461,7 @@ function display_orders () {
     $orders = <<<DELIMETER
     <tr>
         <td>{$row['order_id']}</td>
-        <td>{$row['order_amount']}</td>
+        <td>&#x20a6;{$row['order_amount']}</td>
         <td>{$row['order_transaction']}</td>
         <td>{$row['order_currency']}</td>
         <td>Order Date</td>
@@ -473,6 +473,42 @@ DELIMETER;
 echo $orders;
 
     }
+
+}
+
+
+
+function display_index_orders () {
+
+    $query = query("SELECT * FROM orders ORDER BY order_id DESC LIMIT 20");
+    confirm($query);
+
+    
+    $conta = 1;
+
+    while($row = fetch_array($query)) {
+       
+        // heredoc
+    $orders = <<<DELIMETER
+    <tr>
+        <td>$conta</td>
+        <td>{$row['order_id']}</td>
+        <td>Order Date</td>
+        <td>Order Time</td>
+        <td>&#x20a6;{$row['order_amount']}</td>
+        <td>{$row['order_transaction']}</td>
+        <td>{$row['order_currency']}</td>
+        <td>Payment Type</td>
+        <td>{$row['order_status']}</td>
+    </tr>
+DELIMETER;
+
+echo $orders;
+    $_SESSION['order_conta'] = $conta;
+    $conta++;
+    }
+
+    
 
 }
 

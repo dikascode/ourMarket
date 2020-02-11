@@ -3,12 +3,15 @@
 
 <?php include(TEMPLATE_FRONT . DS . "header.php") ?>
 
+  <!-- CRSF returned token -->
+  <?php $crsf = form_protect(); ?>
+
 
 <!-- BREADCRUMB -->
 <div id="breadcrumb">
 		<div class="container">
 			<ul class="breadcrumb">
-				<li><a href="#">Home</a></li>
+				<li><a href="index.php">Home</a></li>
 				<li class="active">Checkout</li>
 			</ul>
 		</div>
@@ -98,6 +101,9 @@
 							<div class="form-group">
 								<input class="input" type="text" name="first-name" placeholder="First Name">
 							</div>
+                            <div class="form-group">
+                                <input type="hidden" name="crsf" class="form-control" value="<?php echo $crsf; ?>"></label>
+                            </div>
 							<div class="form-group">
 								<input class="input" type="text" name="last-name" placeholder="Last Name">
 							</div>
@@ -127,7 +133,7 @@
 					</div>
 
 					<div class="col-md-6">
-						<!-- Put something in this free space -->
+						<!-- Remember place something in this free space -->
 					</div>
 
                     <div class="pull-right">

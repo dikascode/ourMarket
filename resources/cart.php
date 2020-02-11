@@ -184,7 +184,44 @@ function flutter_wave (){
     // print_r($_SESSION);
     // echo "</pre>";
 
-    if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1){
+    if(isset($_POST['submit'])){
+    
+        $crsf = form_protect();
+            //validate crsf token
+        if (hash_equals($crsf, $_POST['crsf'])) {
+             $cust_name = escape_string($_POST['first-name']) ." ".escape_string($_POST['last-name']);
+             $cust_email = escape_string(sha1($_POST['email']));
+             $cust_address = escape_string(sha1($_POST['address']));
+             $cust_number = escape_string(sha1($_POST['tel']));
+
+             if(!isset($_SESSION['cust_name'] )) {
+                $_SESSION['cust_name'] = $cust_name;
+             } 
+
+             if(!isset($_SESSION['cust_email'] )) {
+                $_SESSION['cust_email'] = $cust_email;
+             }
+
+             if(!isset($_SESSION['cust_number'] )) {
+                $_SESSION['cust_number'] = $cust_number;
+             }
+
+             if(!isset( $_SESSION['cust_address'] )) {
+                $_SESSION['cust_address'] = $cust_address;
+             }
+
+             
+             
+             
+    
+            }else{
+                echo "<p class='bg-danger'>CRSF Token failed</p>";
+            }
+        
+    
+    }
+
+    if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1 && isset($_SESSION['cust_email'])){
 
 $rave = <<<DELIMETER
 
@@ -202,9 +239,9 @@ $rave = <<<DELIMETER
     getpaidSetup(
       {
         PBFPubKey: "FLWPUBK_TEST-da442eaa54922b8e2b162340798fe4d6-X",
-      	customer_email: "user@example.com",
+      	customer_email: "{$_SESSION['cust_email']}",
       	amount: {$_SESSION['total_price']},
-      	customer_phone: "234099940409",
+      	customer_phone: "{$_SESSION['cust_number']}",
       	currency: "NGN",
       	txref: "OURMARKET"+ Math.random(),
       	meta: [{metaname:"flightID", metavalue: "AP1234"}],
@@ -281,7 +318,7 @@ function transaction_verification () {
         $cust_name = $resp['data']['custname'];
 
 
-        //sesssions for customer
+        //sessions for customer
 
         $_SESSION['cust_email']     = $cust_email;
         $_SESSION['cust_number']    = $cust_number;
