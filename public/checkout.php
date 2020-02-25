@@ -41,8 +41,8 @@
 										<th class="text-center">Price</th>
 										<th class="text-center">Quantity</th>
 										<th class="text-center">SubTotal</th>
-                                        <th class="text-center"></th>
-										<th class="text-right"></th>
+                                        
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -68,7 +68,7 @@
 									<tr>
                                     <th class="empty" colspan="3"></th>
 										<th class="empty" colspan="3"></th>
-										<th>SHIPING</th>
+										<th>SHIPPING</th>
 										<td colspan="2">Free Shipping</td>
 									</tr>
 									<tr>
@@ -140,6 +140,7 @@
 								<button class="primary-btn">
                                 <!-- FlutterWave payment integration -->
                                         <?php echo flutter_wave (); ?>
+										<input type="submit" class="primary-btn" style="cursor:pointer;" value="Pay Now" id="submit" />
                                 </button>
 					</div>
 

@@ -1,7 +1,15 @@
+<?php require_once("config.php"); ?>
+
 <?php 
 
 
-require_once("config.php"); ?>
+    
+    // echo "<pre>";
+    // print_r($_SESSION);
+    // echo "</pre>";
+
+?>
+
 
 <?php
 
@@ -65,6 +73,14 @@ require_once("config.php"); ?>
 
     function cart() {
 
+        if(isset($_SESSION['item_cart'])){
+            
+            $cart_data = $_SESSION['item_cart'];
+
+        }
+        
+
+        
         $total = 0;
         $item_quantity = 0;
 
@@ -74,19 +90,24 @@ require_once("config.php"); ?>
         $quantity = 1;
         $conta = 1;
 
-        foreach ($_SESSION as $name => $value) {
+
+      if(isset($_SESSION['item_cart']) && $cart_data) {  
+          
+        foreach ($cart_data as $cart_key => $cart_value) {
             
-            if ($value > 0) {
+            if ($cart_value > 0) {
                 
 
                 // Getting the substring of the session amd comparing to get the product id
-                if (substr($name, 0, 8) == "product_") {
+              
 
-                    $length = strlen($name) - 8;
-                    $id = substr($name, 8, $length);
+                    $field_val['p_number'] = $cart_value;
+                    $value = $_SESSION['item_cart_qty'][$cart_key];
+
+                    
 
                     //Select product from database
-                    $query = query("SELECT * FROM products WHERE product_id =" . escape_string($id) . " ");
+                    $query = query("SELECT * FROM products WHERE product_id =" . escape_string($field_val['p_number']) . " ");
                     confirm($query);
             
                     while($row = fetch_array($query)) {
@@ -96,8 +117,8 @@ require_once("config.php"); ?>
 
                         //getting the sub-total of the product
 
-                        $sub = $row['product_price'] * $value;
-                        $item_quantity += $value;
+                         $sub = $row['product_price'] * $value;
+                         $item_quantity += $value;
                         
             
 $product = <<<DELIMETER
@@ -110,12 +131,8 @@ $product = <<<DELIMETER
     <td class="price text-center"><strong>&#8358;{$row['product_price']}</strong></td>
     <td class="price text-center">$value</td>
     <td class="total text-center"><strong class="primary-color">&#8358;$sub</strong></td>
-    <td></td>
-    <td>
-    <a class='btn btn-warning' href='../resources/cart.php?remove={$row['product_id']}'><span class='glyphicon glyphicon-minus'></span></a> 
-    <a class='btn btn-success' href='../resources/cart.php?add={$row['product_id']}'><span class='glyphicon glyphicon-plus'></span></a> 
-    <a class='btn btn-danger' href='../resources/cart.php?delete={$row['product_id']}'><span class='glyphicon glyphicon-remove'></span></a>
-    </td>
+   
+   
 </tr>
 
 DELIMETER;
@@ -143,7 +160,7 @@ echo $product;
                         
                         
 
-                    }
+                    // }
 
                     
 
@@ -151,6 +168,11 @@ echo $product;
 
             
         }
+
+    }else {
+
+        echo "<tr><td col-span='7'><h1 class='text-center'>Cart is Empty</h1></td></tr>";
+    }
         
         
 
@@ -224,8 +246,6 @@ function flutter_wave (){
     if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1 && isset($_SESSION['cust_email'])){
 
 $rave = <<<DELIMETER
-
-<input type="submit" class="primary-btn" style="cursor:pointer;" value="Pay Now" id="submit" />
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

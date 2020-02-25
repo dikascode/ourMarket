@@ -3,6 +3,17 @@ require_once("../resources/config.php");
 ?>
 
 
+<?php 
+
+	global $cart_data;
+
+	if(isset($_SESSION['item_cart']) && !empty($_SESSION['item_cart'])) {
+		$cart_data = $_SESSION['item_cart'];
+	}
+
+?>
+
+
 <!-- HEADER -->
     <header>
 		<!-- top Header -->
@@ -76,7 +87,7 @@ require_once("../resources/config.php");
 							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 								<div class="header-btns-icon">
 									<i class="fa fa-shopping-cart"></i>
-									<span class="qty"><?php echo cart_count(); ?></span>
+									<span class="qty"><?php echo @count($cart_data); ?></span>
 								</div>
 								<strong class="text-uppercase">My Cart:</strong>
 								<br>
@@ -108,7 +119,7 @@ require_once("../resources/config.php");
 									</div>
 									<div class="shopping-cart-btns">
 										<button class="main-btn">View Cart</button>
-										<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+										<a class="primary-btn" href="checkout.php">Checkout <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
 							</div>

@@ -21,6 +21,13 @@ function form_protect () {
     
 }
 
+//validating input
+function htmlvalidation($form_data){
+    $form_data = trim( stripslashes( htmlspecialchars( $form_data ) ) );
+    
+    return $form_data;
+}
+
 
 function last_id () {
     global $connection;
@@ -225,7 +232,16 @@ function get_products() {
 <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a>
 </h4>
 <p>{$row['short_desc']}</p>
-<a class="btn btn-primary cartLink" target="_blank" rel="noopener" href="../resources/cart.php?add={$row['product_id']}">Add to Cart</a>
+
+ <form method="post" class="submit_pro">
+
+ <label class="col-6 col-form-label">Quantity :</label>
+ <input type="number" class="col-6 pro-qty" value="1" min="1" max="100" required>
+ <button type="submit" class="btn btn-sm bg-primary pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+ 
+
+ </form>
+
 </div>
 
 </div>
@@ -237,9 +253,9 @@ echo $product;
 
 // target="_blank" href="../resources/cart.php?add={$row['product_id']}"
 
-// <form method="post" class="submit_pro">
-// <button type="submit" class="btn btn-sm bg-primary pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
-// </form>
+//<a class="btn btn-primary cartLink" target="_blank" rel="noopener" href="../resources/cart.php?add={$row['product_id']}">Add to Cart</a>
+
+
 
     
     }
@@ -339,12 +355,12 @@ function get_products_in_shop_page(){
     $category_links = <<<DELIMETER
     <div class="col-md-3 col-sm-6 hero-feature">
     <div class="thumbnail">
-        <img src="../resources/{$product_image}" alt="{$row['product_title']}">
+        <img style="height:170px;" src="../resources/{$product_image}" alt="{$row['product_title']}">
         <div class="caption">
             <h4>{$row['product_title']}</h4>
             <p>{$row['short_desc']}</p>
             <p>
-                <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
+                <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">Add to Cart!</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
             </p>
         </div>
     </div>

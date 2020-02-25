@@ -8,9 +8,10 @@
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        if(isset($_POST['product_num']) && !empty(trim($_POST['product_num']))) {
+        if(isset($_POST['product_num']) && !empty(trim($_POST['product_num'])) && isset($_POST['product_qty']) &&  !empty(trim($_POST['product_qty'])) ) {
 
-            $product_num = escape_string($_POST['product_num']);
+            $product_num = htmlvalidation($_POST['product_num']);
+            $product_qty = htmlvalidation($_POST['product_qty']);
 
             if (isset($_SESSION['item_cart'])) {
 
@@ -22,6 +23,7 @@
 
                     $counter_no = $_SESSION['counter'] + 1;
                     $_SESSION['item_cart'][$counter_no] = $product_num;
+                    $_SESSION['item_cart_qty'][$counter_no] = $product_qty;
                     $_SESSION['counter'] = $counter_no;
 
 
@@ -40,6 +42,7 @@
             } else {
 
                 $_SESSION['item_cart'][1] = $product_num;
+                $_SESSION['item_cart_qty'][1] = $product_qty;
                 $_SESSION['counter'] = 1;
 
                 $json['status'] = 100;
@@ -60,7 +63,7 @@
     $json['msg'] = "Invalid Request found";
 
 }
-print_r($_SESSION);
+// print_r($_SESSION);
     echo json_encode($json);
 
 ?>
