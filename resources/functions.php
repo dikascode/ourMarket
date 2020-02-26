@@ -234,7 +234,7 @@ function get_products() {
 <p>{$row['short_desc']}</p>
 
  <form method="post" class="submit_pro">
-
+<input type="hidden" class="pro-price" value="{$row['product_price']}">
  <label class="col-6 col-form-label">Quantity :</label>
  <input type="number" class="col-6 pro-qty" value="1" min="1" max="100" required>
  <button type="submit" class="btn btn-sm bg-primary pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
@@ -325,8 +325,17 @@ function get_category_products(){
         <div class="caption">
             <h4>{$row['product_title']}</h4>
             <p>{$row['short_desc']}</p>
-            <p>
-                <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">Buy Now!</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
+
+            <form method="post" class="submit_pro">
+            <input type="hidden" class="pro-price" value="{$row['product_price']}">
+            
+             <input type="number" class="col-4 pro-qty" value="1" min="1" max="100" required>
+             <button type="submit" class="btn btn-sm bg-primary pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+             
+            
+             </form>
+            <p style="margin-top: 2%">
+            <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
             </p>
         </div>
     </div>
@@ -359,8 +368,18 @@ function get_products_in_shop_page(){
         <div class="caption">
             <h4>{$row['product_title']}</h4>
             <p>{$row['short_desc']}</p>
-            <p>
-                <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">Add to Cart!</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">More Info</a>
+
+            <form method="post" class="submit_pro">
+            <input type="hidden" class="pro-price" value="{$row['product_price']}">
+            
+             <input type="number" class="col-4 pro-qty" value="1" min="1" max="100" required>
+             <button type="submit" class="btn btn-sm bg-primary pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+             
+            
+             </form>
+
+             <p style="margin-top:5px;">
+             <a href="item.php?id={$row['product_id']}" class="btn btn-default col-4">More Info</a>
             </p>
         </div>
     </div>

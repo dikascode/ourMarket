@@ -118,7 +118,15 @@
 									<span class="text-uppercase">QTY: </span>
 									<input class="input" type="number">
 								</div> -->
-								<a href="../resources/cart.php?add=<?php echo $row['product_id']; ?>" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+								
+			<form method="post" class="submit_pro">
+            <input type="hidden" class="pro-price" value="{$row['product_price']}">
+            <label class="col-6 col-form-label">Quantity :</label>
+             <input type="number" class="col-4 pro-qty" value="1" min="1" max="100" required>
+             <button type="submit" class="primary-btn pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+             
+            
+             </form>
 								<div class="pull-right">
 									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>

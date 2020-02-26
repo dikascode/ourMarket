@@ -7,7 +7,8 @@ $(document).ready(function() {
         e.preventDefault();
         let product_num = $(this).find('.pc_data').data('dataid');
         let product_qty = $(this).find('.pro-qty').val();
-         alert("Product Id is "+product_num+" Product quantity "+product_qty);
+        //let product_price = $(this).find('.pro-price').val();
+         //alert("Product Id is "+product_num+" Product quantity "+product_qty);
 
         if (product_num == "" || product_qty == "") {
 
@@ -28,6 +29,7 @@ $(document).ready(function() {
                         location.reload();
                     } else if (get_val.status == 103) {
                         console.log(get_val.msg);
+                        alert(get_val.msg)
                     } else {
                         console.log(get_val.msg);
                     }

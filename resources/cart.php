@@ -1,4 +1,6 @@
-<?php require_once("config.php"); ?>
+<?php 
+
+    require_once("config.php"); ?>
 
 <?php 
 
@@ -76,6 +78,7 @@
         if(isset($_SESSION['item_cart'])){
             
             $cart_data = $_SESSION['item_cart'];
+            $data_value = $_SESSION['item_cart_qty'];
 
         }
         
@@ -99,12 +102,11 @@
                 
 
                 // Getting the substring of the session amd comparing to get the product id
-              
+
 
                     $field_val['p_number'] = $cart_value;
                     $value = $_SESSION['item_cart_qty'][$cart_key];
 
-                    
 
                     //Select product from database
                     $query = query("SELECT * FROM products WHERE product_id =" . escape_string($field_val['p_number']) . " ");
@@ -202,10 +204,7 @@ return $paypal_button;
 // flutter wave api
 function flutter_wave (){
 
-    // echo "<pre>";
-    // print_r($_SESSION);
-    // echo "</pre>";
-
+   
     if(isset($_POST['submit'])){
     
         $crsf = form_protect();
@@ -493,6 +492,90 @@ function process_transaction() {
 
 
    
+
+}
+
+
+//shopping cart list
+function shopping_cart_list() {
+
+    if(isset($_SESSION['item_cart'])){
+        
+        $cart_data = $_SESSION['item_cart'];
+        $data_value = $_SESSION['item_cart_qty'];
+
+    }
+    
+
+    
+    $total = 0;
+    $item_quantity = 0;
+
+
+
+  if(isset($_SESSION['item_cart']) && $cart_data) {  
+      
+    foreach ($cart_data as $cart_key => $cart_value) {
+        
+        if ($cart_value > 0) {
+            
+
+            // Getting the substring of the session amd comparing to get the product id
+
+
+                $field_val['p_number'] = $cart_value;
+                $value = $_SESSION['item_cart_qty'][$cart_key];
+
+
+                //Select product from database
+                $query = query("SELECT * FROM products WHERE product_id =" . escape_string($field_val['p_number']) . " ");
+                confirm($query);
+        
+                while($row = fetch_array($query)) {
+
+                    //fetch the image path using the display_image function
+                    $product_image = display_image($row['product_image']);
+
+                    //getting the sub-total of the product
+
+                     $sub = $row['product_price'] * $value;
+                     $item_quantity += $value;
+                    
+        
+$product = <<<DELIMETER
+<div class="product product-widget">
+    <div class="product-thumb">
+        <img src="../resources/{$product_image}" alt="">
+    </div>
+    <div class="product-body">
+        <h3 class="product-price">&#8358; {$row['product_price']} <span class="qty">x{$value}</span></h3>
+        <h2 class="product-name"><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h2>
+    </div>
+    <button class="cancel-btn"><i class="fa fa-trash"></i></button>
+</div>
+
+DELIMETER;
+
+echo $product;
+
+
+                    
+                }
+
+                
+                
+
+        }
+
+        
+    }
+
+}else {
+
+    echo "<h3 class='text-center'>Cart is Empty</h3>";
+}
+    
+    
 
 }
 

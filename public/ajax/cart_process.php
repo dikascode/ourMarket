@@ -12,6 +12,8 @@
 
             $product_num = htmlvalidation($_POST['product_num']);
             $product_qty = htmlvalidation($_POST['product_qty']);
+            // $product_price = htmlvalidation($_POST['product_price']);
+
 
             if (isset($_SESSION['item_cart'])) {
 
@@ -22,9 +24,10 @@
                 if (!in_array($product_num, $cart_val)) {
 
                     $counter_no = $_SESSION['counter'] + 1;
-                    $_SESSION['item_cart'][$counter_no] = $product_num;
+                    $_SESSION['item_cart'][$counter_no]     = $product_num;
                     $_SESSION['item_cart_qty'][$counter_no] = $product_qty;
-                    $_SESSION['counter'] = $counter_no;
+                    $_SESSION['counter']                    = $counter_no;
+                   // $_SESSION['price'][$counter_no]         += ($product_price * $product_qty);
 
 
                     $json['status'] = 100;
@@ -44,6 +47,7 @@
                 $_SESSION['item_cart'][1] = $product_num;
                 $_SESSION['item_cart_qty'][1] = $product_qty;
                 $_SESSION['counter'] = 1;
+                // $_SESSION['price'][1] =  $product_price*$product_qty;
 
                 $json['status'] = 100;
                 $json['msg'] = "Product Successfully Added In Cart";
