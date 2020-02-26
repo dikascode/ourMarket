@@ -38,13 +38,39 @@ $(document).ready(function() {
 
         }
     });
+
+    $(document).on('click', 'button.rm-val', function () {
+        //alert('hi');
+        let rm_val = $(this).data('dataval');
+        
+        if(rm_val == '') {
+            alert('Data Value not found');
+            
+        } else {
+            
+            $.ajax({
+                
+                type: "POST",
+                url: "ajax/cart_process.php",
+                data: { 'rm_val' : rm_val },
+                success: function (response) {
+
+                    let get_val = JSON.parse(response);
+
+                    if(get_val.status == 102) {
+                        console.log(get_val.msg)
+                        location.reload();
+                    }else {
+                        console.log(get_val.msg)
+                    }
+                
+                }
+            });
+            
+
+        }
+    });
 });
 
-let classname =  document.getElementsByClassName("cartLink");
-Array.from(classname).forEach(function(element) {
- element.addEventListener('click', function (e){
-     //alert('hi');
-     //window.location= "index.php";
- });
-});
+
 

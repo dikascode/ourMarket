@@ -10,6 +10,11 @@
 
     //session_destroy();
 
+    // unset($_SESSION['item_cart']);
+    // unset($_SESSION['item_cart_qty']);
+    // unset($_SESSION['total_price']);
+
+
 ?>
 
     <!-- Page Content -->

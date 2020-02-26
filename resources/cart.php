@@ -78,8 +78,7 @@
         if(isset($_SESSION['item_cart'])){
             
             $cart_data = $_SESSION['item_cart'];
-            $data_value = $_SESSION['item_cart_qty'];
-
+        
         }
         
 
@@ -99,9 +98,6 @@
         foreach ($cart_data as $cart_key => $cart_value) {
             
             if ($cart_value > 0) {
-                
-
-                // Getting the substring of the session amd comparing to get the product id
 
 
                     $field_val['p_number'] = $cart_value;
@@ -133,6 +129,12 @@ $product = <<<DELIMETER
     <td class="price text-center"><strong>&#8358;{$row['product_price']}</strong></td>
     <td class="price text-center">$value</td>
     <td class="total text-center"><strong class="primary-color">&#8358;$sub</strong></td>
+    <td>
+        <button class="btn btn-sm btn-danger rm-val" data-dataval="{$cart_key}">
+            <span><i class="far fa-trash-alt"></i></span>
+            <span>Remove</span>
+        </button>
+    </td>
    
    
 </tr>
@@ -203,65 +205,38 @@ return $paypal_button;
 
 // flutter wave api
 function flutter_wave (){
-
-   
-    if(isset($_POST['submit'])){
-    
-        $crsf = form_protect();
-            //validate crsf token
-        if (hash_equals($crsf, $_POST['crsf'])) {
-             $cust_name = escape_string($_POST['first-name']) ." ".escape_string($_POST['last-name']);
-             $cust_email = escape_string(sha1($_POST['email']));
-             $cust_address = escape_string(sha1($_POST['address']));
-             $cust_number = escape_string(sha1($_POST['tel']));
-
-             if(!isset($_SESSION['cust_name'] )) {
-                $_SESSION['cust_name'] = $cust_name;
-             } 
-
-             if(!isset($_SESSION['cust_email'] )) {
-                $_SESSION['cust_email'] = $cust_email;
-             }
-
-             if(!isset($_SESSION['cust_number'] )) {
-                $_SESSION['cust_number'] = $cust_number;
-             }
-
-             if(!isset( $_SESSION['cust_address'] )) {
-                $_SESSION['cust_address'] = $cust_address;
-             }
-
-             
-             
-             
-    
-            }else{
-                echo "<p class='bg-danger'>CRSF Token failed</p>";
-            }
-        
-    
-    }
-
-    if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1 && isset($_SESSION['cust_email'])){
+  
+    if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1 ){
 
 $rave = <<<DELIMETER
-
+<input type="submit" class="primary-btn" style="cursor:pointer;" value="Pay Now" id="submit" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
 <script type="text/javascript">
+ 
   document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById('submit').addEventListener('click', function () {
+        let cust_email      = document.getElementById('email').value;
+        let cust_number     = document.getElementById('tel').value;
+        let cust_name       = document.getElementById('fname').value;
+        cust_name           += document.getElementById('lname').value;
+        alert(cust_name);
+        let cust_add = document.getElementById('address').value;
+    
 
-    var flw_ref = "", chargeResponse = "", trxref = "OURMARKET"+ Math.random(), API_publicKey = "FLWPUBK_TEST-da442eaa54922b8e2b162340798fe4d6-X";
+
+    var flw_ref = "", chargeResponse = "", trxref = "OURMARKET"+ Math.random(), API_publicKey = "FLWPUBK_TEST-6921d097ab745d1e299bccf98fbc7ac1-X";
 
     getpaidSetup(
       {
-        PBFPubKey: "FLWPUBK_TEST-da442eaa54922b8e2b162340798fe4d6-X",
-      	customer_email: "{$_SESSION['cust_email']}",
+        PBFPubKey: "FLWPUBK_TEST-6921d097ab745d1e299bccf98fbc7ac1-X",
+      	customer_email: cust_email,
       	amount: {$_SESSION['total_price']},
-      	customer_phone: "{$_SESSION['cust_number']}",
-      	currency: "NGN",
+        customer_phone: cust_number,
+        currency: "NGN",
+        cust_name: cust_name,
+        address: cust_add,
       	txref: "OURMARKET"+ Math.random(),
       	meta: [{metaname:"flightID", metavalue: "AP1234"}],
         onclose:function(response) {
@@ -271,7 +246,7 @@ $rave = <<<DELIMETER
           amount = {$_SESSION['total_price']};
           txref = response.tx.txRef, chargeResponse = response.tx.chargeResponseCode;
           if (chargeResponse == "00" || chargeResponse == "0") {
-            window.location = "../public/paymentverification.php?txref="+txref+"&amt="+amount+"&cur="+currency; //Add your success page here
+            window.location = "../public/paymentverification.php?txref="+txref+"&amt="+amount+"&cur="+currency+"&name="+cust_name; //Add your success page here
           } else {
             window.location = "../public/payverification_fail.php?txref="+txref;  //Add your failure page here
           }
@@ -297,13 +272,21 @@ return $rave;
 function transaction_verification () {
     //for flutterwave
 
+    if(isset($_SESSION['item_cart'])){
+            
+        $cart_data = $_SESSION['item_cart'];
+    
+    }
+
     if (isset($_GET['txref'])) {
         $ref = $_GET['txref'];
         $amount = $_GET['amt']; //Correct Amount from Server
         $currency = $_GET['cur']; //Correct Currency from Server
+        $name = $_GET['name'];
+        //$address = $_GET['add'];
 
         $query = array(
-            "SECKEY" => "FLWSECK_TEST-9de4c7a8ff92cc450ed37d1c3bbef81c-X",
+            "SECKEY" => "FLWSECK_TEST-43447f6d36fea2e95bef93811139fcb8-X",
             "txref" => $ref
         );
 
@@ -334,7 +317,13 @@ function transaction_verification () {
         $chargeCurrency = $resp['data']['currency'];
         $cust_email = $resp['data']['custemail'];
         $cust_number = $resp['data']['custphone'];
-        $cust_name = $resp['data']['custname'];
+        $cust_name = $name;
+        //$cust_addr = $address;
+
+
+        echo "<pre>";
+        print_r($resp['data']);
+        echo "</pre>";
 
 
         //sessions for customer
@@ -358,18 +347,19 @@ function transaction_verification () {
 
            confirm($send_order);
         
-            foreach ($_SESSION as $name => $value) {
+           if(isset($_SESSION['item_cart'])){
+            foreach ($cart_data as $cart_key => $cart_value) {
 
-                $length = strlen($name);
-                $id     = substr($name, 8, $length);
+                // $length = strlen($name);
+                // $id     = substr($name, 8, $length);
                      
-                if ($value > 0) {
-        
-                    // Getting the substring of the session amd comparing to get the product id
-                    if (substr($name, 0, 8) == "product_") {
+                if ($cart_value > 0) {
+
+                    $field_val['p_number'] = $cart_value;
+                    $value = $_SESSION['item_cart_qty'][$cart_key];
         
                         //Select product from database
-                        $product_query = query("SELECT * FROM products WHERE product_id =" . escape_string($id) . " ");
+                        $product_query = query("SELECT * FROM products WHERE product_id =" . escape_string($field_val['p_number']) . " ");
                         confirm($product_query);
                 
                         while($row = fetch_array($product_query)) {
@@ -380,6 +370,7 @@ function transaction_verification () {
                             $item_quantity += $value;
                             $product_price = $row['product_price'];
                             $product_title = $row['product_title'];
+                            $id = escape_string($field_val['p_number']);
                            
                             // insert into reports table
                             $insert_report = query("INSERT INTO reports (product_id, order_id, product_price, product_title, product_quantity, cust_email, cust_number, cust_name)
@@ -395,14 +386,20 @@ function transaction_verification () {
 
                         }
             
-                        }
+                        
         
                 }
         
                 
             }
 
-            session_destroy();
+        }
+
+            //session_destroy();
+
+                unset($_SESSION['item_cart']);
+                unset($_SESSION['item_cart_qty']);
+                unset($_SESSION['total_price']);
     
         } else {
             //Dont Give Value and return to Failure page
@@ -483,7 +480,7 @@ function process_transaction() {
  
         
  
-        session_destroy();
+        //session_destroy();
 
      }else{
          redirect("index.php");
@@ -502,7 +499,6 @@ function shopping_cart_list() {
     if(isset($_SESSION['item_cart'])){
         
         $cart_data = $_SESSION['item_cart'];
-        $data_value = $_SESSION['item_cart_qty'];
 
     }
     

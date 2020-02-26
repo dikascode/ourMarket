@@ -25,7 +25,7 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-				<form id="checkout-form" class="clearfix">
+				<form id="checkout-form" method="post" class="clearfix">
                 <div class="col-md-12">
 						<div class="order-summary clearfix">
 							<div class="section-title">
@@ -35,12 +35,13 @@
 							<table class="shopping-cart-table table">
 								<thead>
 									<tr>
-                                        <th>S/N</th>
+                                        <th>S/N</th>	
                                         <th>Product</th>
                                         <th></th>
 										<th class="text-center">Price</th>
 										<th class="text-center">Quantity</th>
 										<th class="text-center">SubTotal</th>
+										<th></th>
                                         
 										
 									</tr>
@@ -58,7 +59,10 @@
                                         <?php 
     
                                             if (isset($_SESSION['item_quantity'])){
-                                                echo  $_SESSION['item_quantity'];
+												if(isset($_SESSION['item_cart']) && !empty($_SESSION['item_cart'])) {
+													echo  $_SESSION['item_quantity'];
+												}
+                                                
                                             }else{
                                                 $_SESSION['item_quantity'] = 0;
                                             }
@@ -79,7 +83,10 @@
                                         <?php 
     
                                             if (isset($_SESSION['total_price'])){
-                                                echo "&#8358;" . $_SESSION['total_price'];
+												if(isset($_SESSION['item_cart']) && !empty($_SESSION['item_cart'])) {
+													echo "&#8358;" . $_SESSION['total_price'];
+												}
+                                                
                                             }else{
                                                 $_SESSION['total_price'] = 0;
                                             }
@@ -99,54 +106,43 @@
 								<h3 class="title">Billing Details</h3>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="first-name" placeholder="First Name">
+								<input class="input" type="text" name="first-name" id="fname" placeholder="First Name">
 							</div>
                             <div class="form-group">
                                 <input type="hidden" name="crsf" class="form-control" value="<?php echo $crsf; ?>"></label>
                             </div>
 							<div class="form-group">
-								<input class="input" type="text" name="last-name" placeholder="Last Name">
+								<input class="input" type="text" name="last-name" id="lname" placeholder="Last Name">
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="email" placeholder="Email">
+								<input class="input" type="email" name="email" id="email" placeholder="Email">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="Address">
+								<input class="input" type="text" name="address" id="address" placeholder="Address">
 							</div>
+							<div class="form-group">
+								<input class="input" type="tel" name="tel" id="tel" placeholder="Telephone">
+							</div>
+						</div>
 							
-							</div>
-							<div class="form-group">
-								<input class="input" type="tel" name="tel" placeholder="Telephone">
-							</div>
-							<!-- <div class="form-group">
-								<div class="input-checkbox">
-									<input type="checkbox" id="register">
-									<label class="font-weak" for="register">Create Account?</label>
-									<div class="caption">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
-											<p>
-												<input class="input" type="password" name="password" placeholder="Enter Your Password">
-									</div>
-								</div>
-							</div> -->
+						
 						</div>
 					</div>
 
-					<div class="col-md-6">
-						<!-- Remember place something in this free space -->
 					</div>
 
-                    <div class="pull-right">
-								<button class="primary-btn">
-                                <!-- FlutterWave payment integration -->
-                                        <?php echo flutter_wave (); ?>
-										<input type="submit" class="primary-btn" style="cursor:pointer;" value="Pay Now" id="submit" />
-                                </button>
-					</div>
-
-					
 				</form>
+
+				<div class="col-md-12">
+						<!-- Remember place something in this free space -->
+						<div class="pull-right">
+                            <!-- FlutterWave payment integration -->
+                                <?php echo flutter_wave (); ?>
+									
+				</div>
 			</div>
+
+			
 			<!-- /row -->
 		</div>
 		<!-- /container -->

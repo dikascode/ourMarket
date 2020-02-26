@@ -120,10 +120,10 @@
 								</div> -->
 								
 			<form method="post" class="submit_pro">
-            <input type="hidden" class="pro-price" value="{$row['product_price']}">
+            <input type="hidden" class="pro-price" value="<?php $row['product_price'] ?>">
             <label class="col-6 col-form-label">Quantity :</label>
              <input type="number" class="col-4 pro-qty" value="1" min="1" max="100" required>
-             <button type="submit" class="primary-btn pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+             <button type="submit" class="primary-btn pc_data" data-dataid="<?php echo $row['product_id'] ?>">Add to Cart</button>
              
             
              </form>

@@ -91,7 +91,7 @@ require_once("../resources/config.php");
 								</div>
 								<strong class="text-uppercase">My Cart:</strong>
 								<br>
-								<span>&#x20a6;<?php if(isset($_SESSION['total_price'])) { echo $_SESSION['total_price'];} ?></span>
+								<!-- <span>&#x20a6;<?php if(isset($_SESSION['total_price'])) { echo $_SESSION['total_price'];} ?></span> -->
 							</a>
 							<div class="custom-menu">
 								<div id="shopping-cart">
@@ -147,7 +147,7 @@ require_once("../resources/config.php");
                         <li><a href="products.php">Products</a></li>
                         <li><a href="checkout.php">Checkout</a></li>
                         <li><a href="contact.php">Contact</a></li>
-						<li class="dropdown mega-dropdown full-width"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Men <i class="fa fa-caret-down"></i></a>
+						<!-- <li class="dropdown mega-dropdown full-width"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Men <i class="fa fa-caret-down"></i></a> -->
 							<div class="custom-menu">
 								<div class="row">
 									<div class="col-md-3">

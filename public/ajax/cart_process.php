@@ -54,7 +54,19 @@
 
             }
 
-        } else {
+        } elseif (isset($_POST['rm_val']) && !empty(trim($_POST['rm_val']))){
+
+            //for removing products in cart
+            $rm_key = $_POST['rm_val'];
+            unset($_SESSION['item_cart'][$rm_key]);
+            unset($_SESSION['item_cart_qty'][$rm_key]);
+
+
+            $json['status'] = 102;
+            $json['msg'] = "Product Successfully Removed";
+            set_message("Product Successfully Removed");
+
+        }else {
 
             $json['status'] = 104;
             $json['msg'] = "Invalid Data Values Not Allowed";
