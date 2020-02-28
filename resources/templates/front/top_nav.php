@@ -63,7 +63,7 @@ require_once("../resources/config.php");
 				<div class="pull-right">
 					<ul class="header-btns">
 						<!-- Account -->
-						<li class="header-account dropdown default-dropdown">
+						<!-- <li class="header-account dropdown default-dropdown">
 							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
 								<div class="header-btns-icon">
 									<i class="fa fa-user"></i>
@@ -79,7 +79,7 @@ require_once("../resources/config.php");
 								<li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
 								<li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
 							</ul>
-						</li>
+						</li> -->
 						<!-- /Account -->
 
 						<!-- Cart -->
@@ -233,8 +233,8 @@ require_once("../resources/config.php");
 								</div>
 							</div>
 						</li>
-                        <li><a href="login.php">Login</a></li>
-                        <li><a href="admin">Admin</a></li>
+                        <!-- <li><a href="login.php">Login</a></li>
+                        <li><a href="admin">Admin</a></li> -->
 					</ul>
 				</div>
 				<!-- menu nav -->

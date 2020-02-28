@@ -221,7 +221,6 @@ $rave = <<<DELIMETER
         let cust_number     = document.getElementById('tel').value;
         let cust_name       = document.getElementById('fname').value;
         cust_name           += document.getElementById('lname').value;
-        alert(cust_name);
         let cust_add = document.getElementById('address').value;
     
 
