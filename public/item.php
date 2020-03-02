@@ -1,6 +1,21 @@
 <?php require_once("../resources/config.php"); ?>
 <?php include(TEMPLATE_FRONT . DS . "header.php") ?>
 
+<!-- Get the avr ratings for each product -->
+
+<?php 
+	$query = query("SELECT id FROM ratings WHERE product_id = ". escape_string($_GET['id']) . " ");
+	confirm($query);
+	$numR = $query->num_rows;
+	
+	$rate_query = query("SELECT SUM(rateIndex) AS total FROM ratings WHERE product_id = ". escape_string($_GET['id']) . " ");
+	confirm($rate_query);
+	$rData 	=  $rate_query->fetch_array();
+	$total 	= $rData['total'];
+	$avg	= $total/$numR;
+
+?>
+
     <!-- Page Content -->
 <div class="container-fluid">
 
@@ -25,6 +40,8 @@
 				<li><a href="#">Category</a></li>
 				<li class="active"><?php echo $row['product_title']; ?></li>
 			</ul>
+
+			<h4 class="bg-danger text-center"><?php display_message(); ?></h4>
 		</div>
 	</div>
 	<!-- /BREADCRUMB -->
@@ -129,7 +146,7 @@
              </form>
 								<div class="pull-right">
 									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+									<!-- <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
 									<button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
 								</div>
 							</div>
@@ -152,58 +169,12 @@
 										<div class="col-md-6">
 											<div class="product-reviews">
 												<div class="single-review">
-													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
-														<div class="review-rating pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o empty"></i>
-														</div>
-													</div>
-													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-													</div>
+													<!-- review function here -->
+													<?php echo get_product_reviews() ?>
 												</div>
 
-												<div class="single-review">
-													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
-														<div class="review-rating pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o empty"></i>
-														</div>
-													</div>
-													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-													</div>
-												</div>
 
-												<div class="single-review">
-													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
-														<div class="review-rating pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o empty"></i>
-														</div>
-													</div>
-													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-													</div>
-												</div>
+												
 
 												<ul class="reviews-pages">
 													<li class="active">1</li>
@@ -216,29 +187,32 @@
 										<div class="col-md-6">
 											<h4 class="text-uppercase">Write Your Review</h4>
 											<p>Your email address will not be published.</p>
+											<!-- Hidden input for avg ratings -->
+											<input type="hidden" value="<?php echo $avg; ?>">
+											
 											<form class="review-form">
 												<div class="form-group">
-													<input class="input" type="text" placeholder="Your Name" />
+													<input class="input cust_name" type="text" placeholder="Your Name" />
 												</div>
 												<div class="form-group">
-													<input class="input" type="email" placeholder="Email Address" />
+													<input class="input cust_email" type="email" placeholder="Email Address" />
 												</div>
 												<div class="form-group">
-													<textarea class="input" placeholder="Your review"></textarea>
+													<textarea class="input cust_review" placeholder="Your review"></textarea>
 												</div>
 												<div class="form-group">
 													<div class="input-rating">
 														<strong class="text-uppercase">Your Rating: </strong>
 														<div class="stars">
-															<input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
-															<input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
-															<input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
-															<input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
-															<input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+															<i class="fa fa-star star-rate" data-index="0"></i>
+															<i class="fa fa-star star-rate" data-index="1"></i>
+															<i class="fa fa-star star-rate" data-index="2"></i>
+															<i class="fa fa-star star-rate" data-index="3"></i>
+															<i class="fa fa-star star-rate" data-index="4"></i>
 														</div>
 													</div>
 												</div>
-												<button class="primary-btn">Submit</button>
+												<button class="primary-btn post_rate">Submit</button>
 											</form>
 										</div>
 									</div>

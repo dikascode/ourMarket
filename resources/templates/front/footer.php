@@ -116,6 +116,9 @@
 <!-- Cart script -->
 <script src="js/cart.js"></script>
 
+<!-- Rating script -->
+<script src="js/rating.js"></script>
+
 </body>
 
 </html>

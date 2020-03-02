@@ -392,6 +392,46 @@ echo $category_links;
 
 }
 
+
+//function to display product reviews
+
+function get_product_reviews(){
+
+    $query = query("SELECT * FROM ratings WHERE product_id = ". escape_string($_GET['id']) . " ");
+    confirm($query);
+
+    while($row = fetch_array($query)) {
+
+        $str    = $row['time'];
+        $date   = date('l - d M Y / g:i A', strtotime($str));
+        
+
+
+        // heredoc
+    $product_reviews = <<<DELIMETER
+    <div class="review-heading">
+        <div><a href="#"><i class="fa fa-user-o badge badge-primary">{$row['cust_name']}</i> </a></div>
+        <div><a href="#"><i class="fa fa-clock-o">{$date}</i> </a></div>
+        <div class="review-rating pull-right">
+        <i class="fas fa-star star-avr" data-index="0"></i>
+        <i class="fas fa-star star-avr" data-index="1"></i>
+        <i class="fas fa-star star-avr" data-index="2"></i>
+        <i class="fas fa-star star-avr" data-index="3"></i>
+        <i class="fas fa-star star-avr" data-index="4"></i>
+        </div>
+        </div>
+        <div class="review-body">
+        <p>{$row['review']}</p>
+    </div>
+DELIMETER;
+
+echo $product_reviews;
+
+    }
+
+}
+
+
 // function for user login
 function login_user(){
 
