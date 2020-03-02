@@ -15,12 +15,15 @@ $(document).ready(function () {
     }
 
     //individual customer rating
+
+    numR = $('.num_row').val();
+    //alert(numR);
     let cust_rating = [];
-    for (var i=0; i<=2; i++) {
+    for (var i=0; i<=numR; i++) {
         cust_rating.push($('.cust_pro_rate:eq('+i+')').val());
     }
     
-alert(cust_rating);
+//alert(cust_rating);
     for (var i=0; i<cust_rating.length; i++) {
 
         for (var j=0; j<cust_rating[i]; j++) {

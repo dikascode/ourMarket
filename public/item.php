@@ -189,6 +189,7 @@
 											<p>Your email address will not be published.</p>
 											<!-- Hidden input for avg ratings -->
 											<input type="hidden" class="avg_rate" value="<?php echo $avg; ?>">
+											<input type="hidden" class="num_row" value="<?php echo $numR; ?>">
 											
 											<form class="review-form">
 												<div class="form-group">
