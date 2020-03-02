@@ -2,11 +2,34 @@
 var ratedIndex = -1, uID = 0, product_num = 0, cust_name = "", cust_email = "", cust_review = "";
 
 $(document).ready(function () {
+    //setting the avr star to black
     $('.star-avr').css('color', 'black');
+    $('.cust_pro_rate:eq('+1+')').css('color', 'red');
 
+    $('.user-rate').css('color', 'black');
+
+    //getting the average of star rating and setting the color of stars to the supposed value
+    let avrRating = $('.avg_rate').val();
+    for (var i=0; i<avrRating; i++) {
+        $('.star-avr:eq('+i+')').css('color', '#FFB656');
+    }
+
+    //individual customer rating
+    let cust_rating = [];
     for (var i=0; i<=2; i++) {
-    $('.star-avr:eq('+i+')').css('color', '#FFB656');
-}
+        cust_rating.push($('.cust_pro_rate:eq('+i+')').val());
+    }
+    
+alert(cust_rating);
+    for (var i=0; i<cust_rating.length; i++) {
+
+        for (var j=0; j<cust_rating[i]; j++) {
+            $('.review-rating:eq('+i+') .user-rate:eq('+j+')').css('color', '#FFB656');
+        }
+        
+    }
+
+    
     
     $('.cust_name').attr("value", localStorage.getItem('name'));
     $('.cust_email').attr("value", localStorage.getItem('email'));

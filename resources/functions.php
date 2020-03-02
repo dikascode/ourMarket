@@ -411,18 +411,20 @@ function get_product_reviews(){
     $product_reviews = <<<DELIMETER
     <div class="review-heading">
         <div><a href="#"><i class="fa fa-user-o badge badge-primary">{$row['cust_name']}</i> </a></div>
-        <div><a href="#"><i class="fa fa-clock-o">{$date}</i> </a></div>
+        <input type="hidden" class="cust_pro_rate" value="{$row['rateIndex']}">
+        <div><a href="#"><i class="fa fa-clock-o"></i>{$date} </a></div>
         <div class="review-rating pull-right">
-        <i class="fas fa-star star-avr" data-index="0"></i>
-        <i class="fas fa-star star-avr" data-index="1"></i>
-        <i class="fas fa-star star-avr" data-index="2"></i>
-        <i class="fas fa-star star-avr" data-index="3"></i>
-        <i class="fas fa-star star-avr" data-index="4"></i>
+        <i class="fas fa-star user-rate" data-index="0"></i>
+        <i class="fas fa-star user-rate" data-index="1"></i>
+        <i class="fas fa-star user-rate" data-index="2"></i>
+        <i class="fas fa-star user-rate" data-index="3"></i>
+        <i class="fas fa-star user-rate" data-index="4"></i>
         </div>
         </div>
         <div class="review-body">
         <p>{$row['review']}</p>
     </div>
+    
 DELIMETER;
 
 echo $product_reviews;

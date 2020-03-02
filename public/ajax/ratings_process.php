@@ -32,12 +32,6 @@
             }
 
              exit(json_encode(array('id' => $uID, 'name' => $cust_name, 'email' => $cust_email)));
-                
-
-            
-
-
-
 
         }
 

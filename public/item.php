@@ -102,11 +102,11 @@
 							<h3 class="product-price">&#x20a6;<?php echo $row['product_price']; ?> <del class="product-old-price">&#x20a6;<?php echo $oldPrice; ?></del></h3>
 							<div>
 								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o empty"></i>
+								<i class="fas fa-star star-avr" data-index="0"></i>
+								<i class="fas fa-star star-avr" data-index="1"></i>
+								<i class="fas fa-star star-avr" data-index="2"></i>
+								<i class="fas fa-star star-avr" data-index="3"></i>
+								<i class="fas fa-star star-avr" data-index="4"></i>
 								</div>
 								<a href="#">3 Review(s) / Add Review</a>
 							</div>
@@ -188,7 +188,7 @@
 											<h4 class="text-uppercase">Write Your Review</h4>
 											<p>Your email address will not be published.</p>
 											<!-- Hidden input for avg ratings -->
-											<input type="hidden" value="<?php echo $avg; ?>">
+											<input type="hidden" class="avg_rate" value="<?php echo $avg; ?>">
 											
 											<form class="review-form">
 												<div class="form-group">
