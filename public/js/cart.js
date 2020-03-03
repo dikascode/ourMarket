@@ -2,6 +2,23 @@
 
 $(document).ready(function() {
 
+    $('.flutter_btn').on('click', function(e) {
+
+        e.preventDefault();
+        let cust_email      = $('#email').val();
+        let cust_number     = $('#tel').val();
+        let cust_name       = $('#fname').val();
+        cust_name           = $('#lname').val();
+    
+        if(cust_email == '' || cust_name == '' || cust_add == '' || cust_number == '') {
+            alert('All fields must be filled before proceeding');
+        }
+    
+
+    });
+
+   
+
 
     $('.submit_pro').on('submit', function(e) {
         e.preventDefault();

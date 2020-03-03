@@ -1,6 +1,8 @@
 <?php require_once("../resources/config.php"); ?>
 <?php include(TEMPLATE_FRONT . DS . "header.php") ?>
 
+<?php $crsf = form_protect(); ?>
+
 <!-- Get the avr ratings for each product -->
 
 <?php 
@@ -12,7 +14,10 @@
 	confirm($rate_query);
 	$rData 	=  $rate_query->fetch_array();
 	$total 	= $rData['total'];
-	$avg	= $total/$numR;
+	if($numR !=0){
+		$avg	= $total/$numR;
+	}
+	
 
 ?>
 
@@ -195,6 +200,7 @@
 												<div class="form-group">
 													<input class="input cust_name" type="text" placeholder="Your Name" />
 												</div>
+												<input value="<?php echo $crsf; ?>" type="hidden" />
 												<div class="form-group">
 													<input class="input cust_email" type="email" placeholder="Email Address" />
 												</div>

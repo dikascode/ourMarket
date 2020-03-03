@@ -46,7 +46,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php transaction_verification();  ?>
+									<?php transaction_verification(); ?>
 					
 								</tbody>
 								<tfoot>
@@ -122,29 +122,3 @@
 
     
 
-
-
-<?php   
-    
-
-    //echo $_GET['txref'];
-
-    //session_destroy();
-
-    // unset($_SESSION['item_cart']);
-    // unset($_SESSION['item_cart_qty']);
-    // unset($_SESSION['total_price']);
-
-
-?>
-
-    <!-- Page Content -->
-    <div class="container">
-
-        <h1 class='text-center'>THANK YOU</h1>
-    
-
-    </div>
-    <!-- /.container -->
-
-    <?php include(TEMPLATE_FRONT . DS . "footer.php") ?>

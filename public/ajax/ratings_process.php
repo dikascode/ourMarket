@@ -4,6 +4,11 @@
 
     if (isset($_POST['save'])) {
 
+        $crsf = form_protect();
+
+         //validate crsf token
+    if (hash_equals($crsf, $_POST['crsf'])) {
+
         if(isset($_POST['product_num']) && !empty(trim($_POST['product_num'])) && isset($_POST['ratedIndex']) &&  trim($_POST['ratedIndex']) != -1 ) {
             $ratedIndex = escape_string($_POST['ratedIndex']);
             $product_num = escape_string($_POST['product_num']);
@@ -34,6 +39,10 @@
              exit(json_encode(array('id' => $uID)));
 
         }
+    }else{
+        set_message("CRSF Token failed");
+    }
+
 
 } 
 

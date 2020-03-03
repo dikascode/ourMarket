@@ -129,18 +129,18 @@
 						</div>
 					</div>
 
-					</div>
+					</form>
+				
 
-				</form>
-
-				<div class="col-md-12">
-						<!-- Remember place something in this free space -->
-						<div class="pull-right">
-                            <!-- FlutterWave payment integration -->
-                                <?php echo flutter_wave (); ?>
-									
+						<div class="col-md">
+							<!-- Remember place something in this free space -->
+							<div class="pull-left">
+								<!-- FlutterWave payment integration -->
+									<?php echo flutter_wave (); ?>
+										
+							</div>
+						</div>
 				</div>
-			</div>
 
 			
 			<!-- /row -->

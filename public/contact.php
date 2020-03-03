@@ -14,8 +14,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Contact Us</h2>
-                    <h3 class="section-subheading bg-info"><?php display_message() ?></h3>;
+                    <h2 class="section-heading" style="margin-top:2%;">Contact Us</h2>
+                    <h3 class="section-subheading bg-info"><?php display_message() ?></h3>
                 </div>
             </div>
             <div class="row">

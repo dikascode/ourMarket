@@ -209,7 +209,7 @@ function flutter_wave (){
     if (isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1 ){
 
 $rave = <<<DELIMETER
-<input type="submit" class="primary-btn" style="cursor:pointer;" value="Pay Now" id="submit" />
+<input type="submit" class="primary-btn flutter_btn" style="cursor:pointer;" value="Pay Now" id="submit" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
@@ -245,7 +245,7 @@ $rave = <<<DELIMETER
           amount = {$_SESSION['total_price']};
           txref = response.tx.txRef, chargeResponse = response.tx.chargeResponseCode;
           if (chargeResponse == "00" || chargeResponse == "0") {
-            window.location = "../public/paymentverification.php?txref="+txref+"&amt="+amount+"&cur="+currency+"&name="+cust_name; //Add your success page here
+            window.location = "../public/paymentverification.php?txref="+txref+"&amt="+amount+"&cur="+currency+"&name="+cust_name+"&address="+cust_add; //Add your success page here
           } else {
             window.location = "../public/payverification_fail.php?txref="+txref;  //Add your failure page here
           }
@@ -282,7 +282,7 @@ function transaction_verification () {
         $amount = $_GET['amt']; //Correct Amount from Server
         $currency = $_GET['cur']; //Correct Currency from Server
         $name = $_GET['name'];
-        //$address = $_GET['add'];
+        $address = $_GET['address'];
 
         $query = array(
             "SECKEY" => "FLWSECK_TEST-43447f6d36fea2e95bef93811139fcb8-X",
@@ -317,12 +317,15 @@ function transaction_verification () {
         $cust_email = $resp['data']['custemail'];
         $cust_number = $resp['data']['custphone'];
         $cust_name = $name;
-        //$cust_addr = $address;
+        $cust_addr = $address;
+        $paymentType = $resp['data']['paymenttype'];
+        $custIP = $resp['data']['ip'];
+        $orderDate = $resp['data']['created'];
 
 
-        echo "<pre>";
-        print_r($resp['data']);
-        echo "</pre>";
+        // echo "<pre>";
+        // print_r($resp['data']);
+        // echo "</pre>";
 
 
         //sessions for customer
@@ -330,6 +333,8 @@ function transaction_verification () {
         $_SESSION['cust_email']     = $cust_email;
         $_SESSION['cust_number']    = $cust_number;
         $_SESSION['cust_name']      = $cust_name;
+        $_SESSION['transaction_ref'] = $tnx_ref;
+        
 
         if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount)  && ($chargeCurrency == $currency)) {
 
@@ -338,8 +343,8 @@ function transaction_verification () {
 
 
            // insert into orders table
-           $send_order = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency, cust_email, cust_number, cust_name)
-           VALUES('$chargeAmount', '$tnx_ref', '$paymentStatus', '$chargeCurrency', '$cust_email', '$cust_number', '$cust_name')");
+           $send_order = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency, cust_email, cust_number, cust_name, address, payment_type, cust_ip, order_date)
+           VALUES('$chargeAmount', '$tnx_ref', '$paymentStatus', '$chargeCurrency', '$cust_email', '$cust_number', '$cust_name', '$cust_addr', '$paymentType', '$custIP', '$orderDate')");
 
            //Obtain the last inserted id
            $last_id = last_id();
@@ -372,8 +377,8 @@ function transaction_verification () {
                             $id = escape_string($field_val['p_number']);
                            
                             // insert into reports table
-                            $insert_report = query("INSERT INTO reports (product_id, order_id, product_price, product_title, product_quantity, cust_email, cust_number, cust_name)
-                            VALUES('$id', '$last_id', '$product_price', '$product_title',  '$value', '{$_SESSION['cust_email']}', '{$_SESSION['cust_number']}', '{$_SESSION['cust_name']}')");
+                            $insert_report = query("INSERT INTO reports (product_id, order_id, product_price, product_title, product_quantity, cust_email, cust_number, cust_name, address, order_date, payment_status)
+                            VALUES('$id', '$last_id', '$product_price', '$product_title',  '$value', '{$_SESSION['cust_email']}', '{$_SESSION['cust_number']}', '{$_SESSION['cust_name']}', '$cust_addr', '$orderDate', '$paymentStatus') ");
             
                             confirm($insert_report);
                 
@@ -394,11 +399,108 @@ function transaction_verification () {
 
         }
 
-            //session_destroy();
 
-                unset($_SESSION['item_cart']);
-                unset($_SESSION['item_cart_qty']);
-                unset($_SESSION['total_price']);
+            //display transaction details
+
+            if($paymentStatus == 'successful') {
+
+                if(isset($_SESSION['item_cart'])){
+            
+                    $cart_data = $_SESSION['item_cart'];
+                
+                }
+                
+        
+                
+                $total = 0;
+                $item_quantity = 0;
+        
+                $item_name = 1;
+                $item_number = 1;
+                $amount = 1;
+                $quantity = 1;
+                $conta = 1;
+        
+        
+              if(isset($_SESSION['item_cart']) && $cart_data) {  
+                  
+                foreach ($cart_data as $cart_key => $cart_value) {
+                    
+                    if ($cart_value > 0) {
+        
+        
+                            $field_val['p_number'] = $cart_value;
+                            $value = $_SESSION['item_cart_qty'][$cart_key];
+        
+        
+                            //Select product from database
+                            $query = query("SELECT * FROM products WHERE product_id =" . escape_string($field_val['p_number']) . " ");
+                            confirm($query);
+                    
+                            while($row = fetch_array($query)) {
+        
+                                //fetch the image path using the display_image function
+                                $product_image = display_image($row['product_image']);
+        
+                                //getting the sub-total of the product
+        
+                                 $sub = $row['product_price'] * $value;
+                                 $item_quantity += $value;
+                                
+                    
+        $product = <<<DELIMETER
+        <tr>
+            <td>$conta</td>
+            <td class="thumb"><img width="100" src="../resources/$product_image" alt="{$row['product_title']}"></td>
+            <td class="details">
+                <a href="#">{$row['product_title']}</a>
+            </td>
+            <td class="price text-center"><strong>&#8358;{$row['product_price']}</strong></td>
+            <td class="price text-center">$value</td>
+            <td class="total text-center"><strong class="primary-color">&#8358;$sub</strong></td>
+            <td class="total text-center"><strong class="primary-color">$paymentStatus</strong></td>
+           
+           
+        </tr>
+        
+        DELIMETER;
+        
+        echo $product;
+        
+                                $item_name++;
+                                $item_number++;
+                                $amount++;
+                                $quantity++;
+        
+                                //total price
+                                $_SESSION['total_price'] = $total += $sub;
+        
+        
+                                $_SESSION['item_quantity'] = $item_quantity;
+        
+                                
+                            }
+        
+                                $_SESSION['conta'] = $conta;
+                                
+                                //increase conta by 1
+                                $conta++;
+                            
+        
+                    }
+        
+                    
+                }
+        
+            }
+
+            }
+
+            session_destroy();
+
+                // unset($_SESSION['item_cart']);
+                // unset($_SESSION['item_cart_qty']);
+                // unset($_SESSION['total_price']);
     
         } else {
             //Dont Give Value and return to Failure page
