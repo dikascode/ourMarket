@@ -434,6 +434,119 @@ echo $product_reviews;
 }
 
 
+//show special products on review page
+function get_products_in_review_page () {
+    $query = query("SELECT * FROM products ORDER BY RAND() LIMIT 4");
+    confirm($query);
+
+    while ($row = fetch_array($query)) {
+
+        $product_image = display_image ($row['product_image']);
+
+$products = <<<DELIMETER
+
+<div class="col-md-3 col-sm-6 col-xs-6">
+    <div class="product product-single">
+        <div class="product-thumb">
+            <div class="product-label">
+                <span class="sale">New</span>
+            </div>
+            <button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
+            <img style="height:170px;" src="../resources/{$product_image}" alt="">
+        </div>
+        <div class="product-body">
+            <h3 class="product-price">&#8358;{$row['product_price']}</h3>
+            <div class="product-rating">
+            <div class="product-rating">
+            <i class="fas fa-star star-avr" data-index="0"></i>
+            <i class="fas fa-star star-avr" data-index="1"></i>
+            <i class="fas fa-star star-avr" data-index="2"></i>
+            <i class="fas fa-star star-avr" data-index="3"></i>
+            <i class="fas fa-star star-avr" data-index="4"></i>
+            </div>
+            </div>
+            <h2 class="product-name"><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h2>
+            <div class="product-btns">
+            <form method="post" class="submit_pro">
+                <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                <input type="number" class="col-4 pro-qty" value="1" min="1" max="100" required>
+                <button type="submit" class="primary-btn pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+DELIMETER;
+
+    echo $products;
+
+    }
+
+
+    
+}
+
+
+
+
+//show latest product on index page
+function get_latest_products () {
+    $query = query("SELECT * FROM products ORDER BY product_id DESC LIMIT 8");
+    confirm($query);
+
+    while ($row = fetch_array($query)) {
+
+        $product_image = display_image ($row['product_image']);
+
+$products = <<<DELIMETER
+
+<div class="col-md-3 col-sm-6 col-xs-6">
+    <div class="product product-single">
+        <div class="product-thumb">
+            <div class="product-label">
+                <span>New</span>
+            </div>
+            <button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
+            <img style="height:170px;" src="../resources/{$product_image}" alt="">
+        </div>
+        <div class="product-body">
+            <h3 class="product-price">&#8358;{$row['product_price']}</h3>
+            <div class="product-rating">
+            <div class="product-rating">
+            <i class="fas fa-star star-avr" data-index="0"></i>
+            <i class="fas fa-star star-avr" data-index="1"></i>
+            <i class="fas fa-star star-avr" data-index="2"></i>
+            <i class="fas fa-star star-avr" data-index="3"></i>
+            <i class="fas fa-star star-avr" data-index="4"></i>
+            </div>
+            </div>
+            <h2 class="product-name"><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h2>
+            <div class="product-btns">
+            <form method="post" class="submit_pro">
+                <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                <input type="number" class="col-4 pro-qty" value="1" min="1" max="100" required>
+                <button type="submit" class="primary-btn pc_data" data-dataid="{$row['product_id']}">Add to Cart</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+DELIMETER;
+
+    echo $products;
+
+    }
+
+
+    
+}
+
+
+
 // function for user login
 function login_user(){
 

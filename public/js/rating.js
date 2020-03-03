@@ -19,11 +19,11 @@ $(document).ready(function () {
     numR = $('.num_row').val();
     //alert(numR);
     let cust_rating = [];
-    for (var i=0; i<=numR; i++) {
+    for (var i=0; i<numR; i++) {
         cust_rating.push($('.cust_pro_rate:eq('+i+')').val());
     }
     
-//alert(cust_rating);
+    //alert(cust_rating);
     for (var i=0; i<cust_rating.length; i++) {
 
         for (var j=0; j<cust_rating[i]; j++) {
@@ -128,4 +128,5 @@ $(document).ready(function () {
     function resetStarColors() {
         $('.star-rate').css('color', 'black');
     }
+
 });

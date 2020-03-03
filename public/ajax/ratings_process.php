@@ -31,7 +31,7 @@
                 set_message("Thanks for updating your rating for this product");
             }
 
-             exit(json_encode(array('id' => $uID, 'name' => $cust_name, 'email' => $cust_email)));
+             exit(json_encode(array('id' => $uID)));
 
         }
 
