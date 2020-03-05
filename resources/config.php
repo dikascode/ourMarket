@@ -17,13 +17,14 @@ defined ("UPLOAD_DIR") ? null : define ("UPLOAD_DIR", __DIR__ . DS . "uploads");
 
 //constants for database connections
 
-defined ("DB_HOST") ? null : define ("DB_HOST", "localhost");
+defined ("DB_HOST") ? null : define ("DB_HOST", "us-cdbr-iron-east-04.cleardb.net");
 
-defined ("DB_USER") ? null : define ("DB_USER", "root");
+defined ("DB_USER") ? null : define ("DB_USER", "b7cdc74acdf7a5");
 
-defined ("DB_PASS") ? null : define ("DB_PASS", "");
+defined ("DB_PASS") ? null : define ("DB_PASS", "b31dd65a");
 
-defined ("DB_NAME") ? null : define ("DB_NAME", "ourMarket_db");
+defined ("DB_NAME") ? null : define ("DB_NAME", "heroku_3297a7a3117dadf");
+
 
 
 //creating the connection
