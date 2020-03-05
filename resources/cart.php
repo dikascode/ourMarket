@@ -336,7 +336,7 @@ function transaction_verification () {
         $_SESSION['transaction_ref'] = $tnx_ref;
         
 
-        if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount)  && ($chargeCurrency == $currency)) {
+        if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount)  && ($chargeCurrency == $currency) && isset($_SESSION['item_cart'])) {
 
             $total = 0;
             $item_quantity = 0;
@@ -458,7 +458,7 @@ function transaction_verification () {
             <td class="price text-center"><strong>&#8358;{$row['product_price']}</strong></td>
             <td class="price text-center">$value</td>
             <td class="total text-center"><strong class="primary-color">&#8358;$sub</strong></td>
-            <td class="total text-center"><strong class="primary-color">$paymentStatus</strong></td>
+            <td class="total text-center"><strong class="primary-color">PAID</strong></td>
            
            
         </tr>

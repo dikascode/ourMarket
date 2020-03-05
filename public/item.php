@@ -199,8 +199,9 @@
 											<form class="review-form">
 												<div class="form-group">
 													<input class="input cust_name" type="text" placeholder="Your Name" />
+													<input name="crsf" type="hidden" class="form-control crsf" value="<?php echo $crsf; ?>">
 												</div>
-												<input value="<?php echo $crsf; ?>" type="hidden" />
+												
 												<div class="form-group">
 													<input class="input cust_email" type="email" placeholder="Email Address" />
 												</div>

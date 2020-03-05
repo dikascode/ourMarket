@@ -1,5 +1,5 @@
 //setting to rated index to -1 cos the system's index starts from 0
-var ratedIndex = -1, uID = 0, product_num = 0, cust_name = "", cust_email = "", cust_review = "";
+var ratedIndex = -1, uID = 0, product_num = 0, cust_name = "", cust_email = "", cust_review = ""; crsf = "";
 
 $(document).ready(function () {
     //setting the avr star to black
@@ -66,6 +66,7 @@ $(document).ready(function () {
         cust_name = $('.cust_name').val();
         cust_email = $('.cust_email').val();
         cust_review = $('.cust_review').val();
+        crsf = $('.crsf').val();
 
         localStorage.setItem('name', cust_name);
         localStorage.setItem('email', cust_email);
@@ -107,7 +108,7 @@ $(document).ready(function () {
             url : "ajax/ratings_process.php",
             method: "POST",
             dataType: 'json',
-            data: { 'save': 1, 'ratedIndex' : ratedIndex, 'product_num' : product_num, 'uID' : uID, 'cust_name' : cust_name, 'cust_email' : cust_email, 'cust_review' : cust_review },
+            data: { 'save': 1, 'ratedIndex' : ratedIndex, 'product_num' : product_num, 'uID' : uID, 'cust_name' : cust_name, 'cust_email' : cust_email, 'cust_review' : cust_review, 'crsf': crsf },
             success: function (response) {
                 uID = response.id;
                 localStorage.setItem('uID', uID);

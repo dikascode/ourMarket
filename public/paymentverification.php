@@ -36,7 +36,8 @@
 								<thead>
 									<tr>
                                         <th>S/N</th>	
-                                        <th>Product</th>
+                                        <th class="text-center">Product</th>
+										<th><th>
 										<th class="text-center">Price</th>
 										<th class="text-center">Quantity</th>
 										<th class="text-center">SubTotal</th>
@@ -113,35 +114,10 @@
 	</div>
 	<!-- /section -->
 
-
-
-<!-- /.row --> 
-
-    <?php include(TEMPLATE_FRONT . DS . "footer.php") ?>
-
-
-    
-
-
-
-<?php   
-    
-
-    //echo $_GET['txref'];
-
-    //session_destroy();
-
-    // unset($_SESSION['item_cart']);
-    // unset($_SESSION['item_cart_qty']);
-    // unset($_SESSION['total_price']);
-
-
-?>
-
     <!-- Page Content -->
     <div class="container">
 
-        <h1 class='text-center'>THANK YOU</h1>
+        <h1 class='text-center'>THANK YOU FOR SHOPPING WITH OUR MARKET. PLEASE COME BACK AGAIN, <a href="index.php">Home</a></h1>
     
 
     </div>
